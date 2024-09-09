@@ -1,2 +1,2 @@
 # chess
-my try at creatin chess in python
+my try at creating chess in python

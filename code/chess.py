@@ -1,10 +1,6 @@
 import pygame
-
-
-
+import math
 pygame.init()
-
-
 
 # Pieces:
 # 0 = pawn
@@ -13,8 +9,6 @@ pygame.init()
 # 3 = rook
 # 4 = queen
 # 5 = king
-
-
 
 white = (255,255,255)
 lgray = (190,190,190)
@@ -60,11 +54,53 @@ class Pieces:
         self.team = team
         self.piece = piece
         self.img = img
+        self.rect = img.get_rect(topleft=coords)
+        self.click = False
+        self.circ=[]
     
     def draw(self):
         window.blit(self.img, self.coords)
+    
+    def contains_point(self, point):
+        return self.rect.collidepoint(point)
 
 
+
+
+def handle_mouse_click(click_pos):
+    for piece in all_pieces:  # all_pieces is a list of all piece instances
+        if piece.click == True:
+            distance = math.sqrt((click_pos[0] - piece.circ[0])**2 + (click_pos[1] - piece.circ[1])**2)
+            if distance <= 27:
+                piece.coords = piece.coords[0], piece.coords[1]-60
+            piece.click= False
+            piece.circ=[]
+        elif piece.contains_point(click_pos):
+            print(f"Clicked on {piece.piece} of team {piece.team}")
+            piece.click=not piece.click
+
+def drawmoves():
+    for piece in all_pieces:
+        if piece.click == True:
+            if piece.team == 0:
+                if piece.piece == 0:
+                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-35), 25)
+                    piece.circ=[piece.coords[0]+25, piece.coords[1]-35]
+                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-95), 25)
+                
+                elif piece.piece == 2:  
+                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+85, piece.coords[1]-95), 25)
+                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]-35, piece.coords[1]-95), 25)
+
+            
+            elif piece.team == 1:
+                if piece.piece == 0:
+                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+85), 25)
+                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+145), 25)
+
+                if piece.piece == 2:
+                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+85, piece.coords[1]+145), 25)
+                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]-35, piece.coords[1]+145), 25)
 
 wpA = Pieces(( 15, 415), 0, 0, wp)
 wpB = Pieces(( 75, 415), 0, 0, wp)
@@ -99,6 +135,10 @@ brA = Pieces(( 15, 55), 1, 3, br)
 brH = Pieces((435, 55), 1, 3, br)
 bqD = Pieces((195, 55), 1, 4, bq)
 bkE = Pieces((255, 55), 1, 5, bk)
+
+all_pieces = [wpA, wpB, wpC, wpD, wpE, wpF, wpG, wpH, wbC, wbF, wnB, wnG, wrA, wrH, wqD, wkE, 
+              bpA, bpB, bpC, bpD, bpE, bpF, bpG, bpH, bbC, bbF, bnB, bnG, brA, brH, bqD, bkE]
+
 
 def drawstart():
     wpA.draw()
@@ -135,6 +175,7 @@ def drawstart():
     bnG.draw()
     brH.draw()
 
+window.blit(bp, (75, 175))
 
 # Main Loop
 running = True
@@ -144,6 +185,7 @@ while running == True:
 
     drawboard()
     drawstart()
+    drawmoves()
 
     # Tastenabfragen
     for event in pygame.event.get():
@@ -152,6 +194,9 @@ while running == True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            clickpos = event.pos
+            handle_mouse_click(clickpos)
 
     
 

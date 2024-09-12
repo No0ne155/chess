@@ -32,6 +32,8 @@ wp = pygame.image.load('C:/code/chess/img/wp.png')
 wq = pygame.image.load('C:/code/chess/img/wq.png')
 wr = pygame.image.load('C:/code/chess/img/wr.png')
 
+#Funktion um das Brett anzuzeigen
+
 def drawboard():
     for i in range(1,8,2):
         for j in range(0,7,2):
@@ -47,7 +49,7 @@ def drawboard():
             pygame.draw.rect(window, lgray, ((i*60+10),(j*60+50),60,60))
     pygame.draw.rect(window, black, (10,50,480 ,480),2)
 
-
+# Klasse für alle Schachfiguren
 class Pieces:
     def __init__(self, coords, team, piece, img) -> None:
         self.coords = coords
@@ -66,9 +68,9 @@ class Pieces:
 
 
 
-
+#Mouse-Click Handeling
 def handle_mouse_click(click_pos):
-    for piece in all_pieces:  # all_pieces is a list of all piece instances
+    for piece in all_pieces:
         if piece.click == True:
             distance = math.sqrt((click_pos[0] - piece.circ[0])**2 + (click_pos[1] - piece.circ[1])**2)
             if distance <= 27:
@@ -79,6 +81,7 @@ def handle_mouse_click(click_pos):
             print(f"Clicked on {piece.piece} of team {piece.team}")
             piece.click=not piece.click
 
+# Funktion um die möglichen Moves anzuzeigen
 def drawmoves():
     for piece in all_pieces:
         if piece.click == True:
@@ -102,6 +105,8 @@ def drawmoves():
                     pygame.draw.circle(window, (255,255,0), (piece.coords[0]+85, piece.coords[1]+145), 25)
                     pygame.draw.circle(window, (255,255,0), (piece.coords[0]-35, piece.coords[1]+145), 25)
 
+
+# Initialisieren aller Schachfiguren
 wpA = Pieces(( 15, 415), 0, 0, wp)
 wpB = Pieces(( 75, 415), 0, 0, wp)
 wpC = Pieces((135, 415), 0, 0, wp)

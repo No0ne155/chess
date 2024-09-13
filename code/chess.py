@@ -16,7 +16,7 @@ dgray = (50,50,50)
 black = (0,0,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
-
+turn = True
 
 bb = pygame.image.load('C:/code/chess/img/bb.png')
 bk = pygame.image.load('C:/code/chess/img/bk.png')
@@ -70,11 +70,16 @@ class Pieces:
 
 #Mouse-Click Handeling
 def handle_mouse_click(click_pos):
+    global turn
     for piece in all_pieces:
         if piece.click == True:
             distance = math.sqrt((click_pos[0] - piece.circ[0])**2 + (click_pos[1] - piece.circ[1])**2)
             if distance <= 27:
-                piece.coords = piece.coords[0], piece.coords[1]-60
+                if piece.team == 0:
+                    piece.coords = piece.coords[0], piece.coords[1]-60
+                elif piece.team == 1:
+                    piece.coords = piece.coords[0], piece.coords[1]+60
+                turn = not turn
             piece.click= False
             piece.circ=[]
         elif piece.contains_point(click_pos):
@@ -86,24 +91,27 @@ def drawmoves():
     for piece in all_pieces:
         if piece.click == True:
             if piece.team == 0:
-                if piece.piece == 0:
-                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-35), 25)
-                    piece.circ=[piece.coords[0]+25, piece.coords[1]-35]
-                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-95), 25)
-                
-                elif piece.piece == 2:  
-                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]+85, piece.coords[1]-95), 25)
-                    pygame.draw.circle(window, (255,0,0), (piece.coords[0]-35, piece.coords[1]-95), 25)
+                if turn == True:
+                    if piece.piece == 0:
+                        pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-35), 25)
+                        piece.circ=[piece.coords[0]+25, piece.coords[1]-35]
+                        pygame.draw.circle(window, (255,0,0), (piece.coords[0]+25, piece.coords[1]-95), 25)
+                    
+                    elif piece.piece == 2:  
+                        pygame.draw.circle(window, (255,0,0), (piece.coords[0]+85, piece.coords[1]-95), 25)
+                        pygame.draw.circle(window, (255,0,0), (piece.coords[0]-35, piece.coords[1]-95), 25)
 
             
             elif piece.team == 1:
-                if piece.piece == 0:
-                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+85), 25)
-                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+145), 25)
+                if turn == False:
+                    if piece.piece == 0:
+                        pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+85), 25)
+                        piece.circ=[piece.coords[0]+25, piece.coords[1]+85]
+                        pygame.draw.circle(window, (255,255,0), (piece.coords[0]+25, piece.coords[1]+145), 25)
 
-                if piece.piece == 2:
-                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]+85, piece.coords[1]+145), 25)
-                    pygame.draw.circle(window, (255,255,0), (piece.coords[0]-35, piece.coords[1]+145), 25)
+                    if piece.piece == 2:
+                        pygame.draw.circle(window, (255,255,0), (piece.coords[0]+85, piece.coords[1]+145), 25)
+                        pygame.draw.circle(window, (255,255,0), (piece.coords[0]-35, piece.coords[1]+145), 25)
 
 
 # Initialisieren aller Schachfiguren

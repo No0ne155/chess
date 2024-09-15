@@ -32,7 +32,7 @@ wp = pygame.image.load('C:/code/chess/img/wp.png')
 wq = pygame.image.load('C:/code/chess/img/wq.png')
 wr = pygame.image.load('C:/code/chess/img/wr.png')
 
-#Funktion um das Brett anzuzeigen
+# Funktion um das Brett anzuzeigen
 
 def drawboard():
     for i in range(1,8,2):
@@ -68,7 +68,7 @@ class Pieces:
 
 
 
-#Mouse-Click Handeling
+# Mouse-Click Handeling
 def handle_mouse_click(click_pos):
     global turn
     for piece in all_pieces:
@@ -200,7 +200,6 @@ while running == True:
     drawstart()
     drawmoves()
 
-    # Tastenabfragen
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

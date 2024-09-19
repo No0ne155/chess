@@ -18,6 +18,7 @@ clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
 
+# Bilder laden 
 bb = pygame.image.load('C:/code/chess/img/bb.png')
 bk = pygame.image.load('C:/code/chess/img/bk.png')
 bn = pygame.image.load('C:/code/chess/img/bn.png')
@@ -33,7 +34,6 @@ wq = pygame.image.load('C:/code/chess/img/wq.png')
 wr = pygame.image.load('C:/code/chess/img/wr.png')
 
 # Funktion um das Brett anzuzeigen
-
 def drawboard():
     for i in range(1,8,2):
         for j in range(0,7,2):
@@ -48,6 +48,7 @@ def drawboard():
         for j in range(1,8,2):
             pygame.draw.rect(window, lgray, ((i*60+10),(j*60+50),60,60))
     pygame.draw.rect(window, black, (10,50,480 ,480),2)
+
 
 # Klasse für alle Schachfiguren
 class Pieces:
@@ -65,8 +66,6 @@ class Pieces:
     
     def contains_point(self, point):
         return self.rect.collidepoint(point)
-
-
 
 # Mouse-Click Handeling
 def handle_mouse_click(click_pos):

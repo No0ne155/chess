@@ -19,23 +19,22 @@ window = pygame.display.set_mode((800, 600))
 turn = True
 
 board = [
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
-    [1,1,1,1,1,1,1,1],
-    [1,1,1,1,1,1,1,1],
-    ["r","n","b","q","k","b","n","r",],
-    ["p","p","p","p","p","p","p","p",],
+    [0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0],
     ["","","","","","","","",],
     ["","","","","","","","",],
     ["","","","","","","","",],
     ["","","","","","","","",],
-    ["p","p","p","p","p","p","p","p",],
-    ["r","n","b","q","k","b","n","r",]
-]
+    ["","","","","","","","",],
+    ["","","","","","","","",],
+    ["","","","","","","","",],
+    ["","","","","","","","",]]
 
 # Bilder laden 
 bb = pygame.image.load('C:/code/chess/img/bb.png')
@@ -79,6 +78,15 @@ class Pawn:
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+        board[self.coords[1]][self.coords[0]] = 1
+        board[self.coords[1]+8][self.coords[0]] = 'p'
+
+
+    def legalmoves(self):
+        pass
+
+    def drawmoves(self):
+        pygame.draw.circle(window, (255,0,0), (Pawn.coords[0]+25, Pawn.coords[1]-35), 25)
     
 wpawnA = Pawn((0,6), 1, wp)
 wpawnB = Pawn((1,6), 1, wp)
@@ -122,6 +130,7 @@ def drawall():
 
 
 
+
 # Main Loop
 running = True
 while running == True:
@@ -137,6 +146,10 @@ while running == True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+            elif event.key == pygame.K_b:
+                for i in range(len(board)):
+                    print(board[i])
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickpos = event.pos
             #handle_mouse_click(clickpos)

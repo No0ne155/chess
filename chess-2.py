@@ -125,6 +125,28 @@ class Knight:
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Knight.coords[0]+25, Knight.coords[1]-35), 25)
     
+
+class Bishop:
+    def __init__(self, coords, team, img ) -> None:
+        self.coords = coords
+        self.team = team
+        self.img = img
+    
+    def draw(self):
+        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+        board[self.coords[1]][self.coords[0]] = 1
+        board[self.coords[1]+8][self.coords[0]] = 'b'
+
+
+    def legalmoves(self):
+        pass
+
+    def drawmoves(self):
+        pygame.draw.circle(window, (255,0,0), (Bishop.coords[0]+25, Bishop.coords[1]-35), 25)
+
+
+
+
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
 wpawnC = Pawn((2,6), 0, wp)
@@ -137,6 +159,8 @@ wrookA = Rook((0,7), 0, wr)
 wrookH = Rook((7,7), 0, wr)
 wknightB = Knight((1,7), 0, wn)
 wknightG = Knight((6,7), 0, wn)
+wbishopC = Bishop((2,7), 0, wb)
+wbishopF = Bishop((5,7), 0, wb)
 
 bpawnA = Pawn((0, 1), 1, bp)
 bpawnB = Pawn((1, 1), 1, bp)
@@ -150,7 +174,8 @@ brookA = Rook((0, 0), 1, br)
 brookH = Rook((7, 0), 1, br)
 bknightB = Knight((1,0), 1, bn)
 bknightG = Knight((6,0), 1, bn)
-
+bbishopC = Bishop((2,0), 1, bb)
+bbishopF = Bishop((5,0), 1, bb)
 
 def drawall():
  wpawnA.draw()
@@ -165,6 +190,8 @@ def drawall():
  wrookH.draw()
  wknightB.draw()
  wknightG.draw()
+ wbishopC.draw()
+ wbishopF.draw()
 
  bpawnA.draw()
  bpawnB.draw()
@@ -178,6 +205,8 @@ def drawall():
  brookH.draw()
  bknightB.draw()
  bknightG.draw()
+ bbishopC.draw()
+ bbishopF.draw()
 
 
 

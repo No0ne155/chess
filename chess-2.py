@@ -144,6 +144,41 @@ class Bishop:
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Bishop.coords[0]+25, Bishop.coords[1]-35), 25)
 
+class Queen:
+    def __init__(self, coords, team, img ) -> None:
+        self.coords = coords
+        self.team = team
+        self.img = img
+    
+    def draw(self):
+        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+        board[self.coords[1]][self.coords[0]] = 1
+        board[self.coords[1]+8][self.coords[0]] = 'q'
+
+
+    def legalmoves(self):
+        pass
+
+    def drawmoves(self):
+        pygame.draw.circle(window, (255,0,0), (Queen.coords[0]+25, Queen.coords[1]-35), 25)
+
+class King:
+    def __init__(self, coords, team, img ) -> None:
+        self.coords = coords
+        self.team = team
+        self.img = img
+    
+    def draw(self):
+        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+        board[self.coords[1]][self.coords[0]] = 1
+        board[self.coords[1]+8][self.coords[0]] = 'k'
+
+
+    def legalmoves(self):
+        pass
+
+    def drawmoves(self):
+        pygame.draw.circle(window, (255,0,0), (King.coords[0]+25, King.coords[1]-35), 25)
 
 
 
@@ -161,6 +196,8 @@ wknightB = Knight((1,7), 0, wn)
 wknightG = Knight((6,7), 0, wn)
 wbishopC = Bishop((2,7), 0, wb)
 wbishopF = Bishop((5,7), 0, wb)
+wqueenD = Queen((3,7), 0, wq)
+wkingE = King((4,7), 0, wk)
 
 bpawnA = Pawn((0, 1), 1, bp)
 bpawnB = Pawn((1, 1), 1, bp)
@@ -176,38 +213,42 @@ bknightB = Knight((1,0), 1, bn)
 bknightG = Knight((6,0), 1, bn)
 bbishopC = Bishop((2,0), 1, bb)
 bbishopF = Bishop((5,0), 1, bb)
+bqueenD = Queen((3,0), 1, bq)
+bkingE = King((4,0), 1, bk)
 
 def drawall():
- wpawnA.draw()
- wpawnB.draw()
- wpawnC.draw()
- wpawnD.draw()
- wpawnE.draw()
- wpawnF.draw()
- wpawnG.draw()
- wpawnH.draw()
- wrookA.draw()
- wrookH.draw()
- wknightB.draw()
- wknightG.draw()
- wbishopC.draw()
- wbishopF.draw()
-
- bpawnA.draw()
- bpawnB.draw()
- bpawnC.draw()
- bpawnD.draw()
- bpawnE.draw()
- bpawnF.draw()
- bpawnG.draw()
- bpawnH.draw()
- brookA.draw()
- brookH.draw()
- bknightB.draw()
- bknightG.draw()
- bbishopC.draw()
- bbishopF.draw()
-
+    wpawnA.draw()
+    wpawnB.draw()
+    wpawnC.draw()
+    wpawnD.draw()
+    wpawnE.draw()
+    wpawnF.draw()
+    wpawnG.draw()
+    wpawnH.draw()
+    wrookA.draw()
+    wrookH.draw()
+    wknightB.draw()
+    wknightG.draw()
+    wbishopC.draw()
+    wbishopF.draw()
+    wqueenD.draw()
+    wkingE.draw()
+    bpawnA.draw()
+    bpawnB.draw()
+    bpawnC.draw()
+    bpawnD.draw()
+    bpawnE.draw()
+    bpawnF.draw()
+    bpawnG.draw()
+    bpawnH.draw()
+    brookA.draw()
+    brookH.draw()
+    bknightB.draw()
+    bknightG.draw()
+    bbishopC.draw()
+    bbishopF.draw()
+    bqueenD.draw()
+    bkingE.draw()
 
 
 

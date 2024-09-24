@@ -87,16 +87,35 @@ class Pawn:
 
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Pawn.coords[0]+25, Pawn.coords[1]-35), 25)
-    
-wpawnA = Pawn((0,6), 1, wp)
-wpawnB = Pawn((1,6), 1, wp)
-wpawnC = Pawn((2,6), 1, wp)
-wpawnD = Pawn((3,6), 1, wp)
-wpawnE = Pawn((4,6), 1, wp)
-wpawnF = Pawn((5,6), 1, wp)
-wpawnG = Pawn((6,6), 1, wp)
-wpawnH = Pawn((7,6), 1, wp)
 
+class Rook:
+    def __init__(self, coords, team, img ) -> None:
+        self.coords = coords
+        self.team = team
+        self.img = img
+    
+    def draw(self):
+        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+        board[self.coords[1]][self.coords[0]] = 1
+        board[self.coords[1]+8][self.coords[0]] = 'r'
+
+
+    def legalmoves(self):
+        pass
+
+    def drawmoves(self):
+        pygame.draw.circle(window, (255,0,0), (Rook.coords[0]+25, Rook.coords[1]-35), 25)
+    
+wpawnA = Pawn((0,6), 0, wp)
+wpawnB = Pawn((1,6), 0, wp)
+wpawnC = Pawn((2,6), 0, wp)
+wpawnD = Pawn((3,6), 0, wp)
+wpawnE = Pawn((4,6), 0, wp)
+wpawnF = Pawn((5,6), 0, wp)
+wpawnG = Pawn((6,6), 0, wp)
+wpawnH = Pawn((7,6), 0, wp)
+wrookA = Rook((0,7), 0, wr)
+wrookH = Rook((7,7), 0, wr)
 
 bpawnA = Pawn((0, 1), 1, bp)
 bpawnB = Pawn((1, 1), 1, bp)
@@ -106,6 +125,8 @@ bpawnE = Pawn((4, 1), 1, bp)
 bpawnF = Pawn((5, 1), 1, bp)
 bpawnG = Pawn((6, 1), 1, bp)
 bpawnH = Pawn((7, 1), 1, bp)
+brookA = Rook((0,0), 1, br)
+brookH = Rook((7,0), 1, br)
 
 
 def drawall():
@@ -117,6 +138,8 @@ def drawall():
  wpawnF.draw()
  wpawnG.draw()
  wpawnH.draw()
+ wrookA.draw()
+ wrookH.draw()
 
  bpawnA.draw()
  bpawnB.draw()
@@ -126,6 +149,8 @@ def drawall():
  bpawnF.draw()
  bpawnG.draw()
  bpawnH.draw()
+ brookA.draw()
+ brookH.draw()
 
 
 

@@ -17,6 +17,8 @@ black = (0,0,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
+font_path = pygame.font.get_default_font()
+myfont = pygame.font.Font(font_path, 26)
 
 board = [
     [0,0,0,0,0,0,0,0],
@@ -53,6 +55,10 @@ wr = pygame.image.load('C:/code/chess/img/wr.png')
 
 pygame.display.set_caption('Chess')
 
+def display_text(text,x,y):
+    text_surface =myfont.render(text, True, black)
+    window.blit(text_surface, (x,y))
+
 # Funktion um das Brett anzuzeigen
 def drawboard():
     for i in range(1,8,2):
@@ -69,13 +75,19 @@ def drawboard():
             pygame.draw.rect(window, lgray, ((i*60),(j*60),60,60))
     pygame.draw.rect(window, black, (0,0,480 ,480),2)
 
+def listboard():
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            display_text(f"{board[i][j]}¦", 500+(j*30), 10+(i*30))
+
+
 
 class Pawn:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
         self.team = team
         self.img = img
-    
+
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         board[self.coords[1]][self.coords[0]] = 1
@@ -83,8 +95,19 @@ class Pawn:
 
 
     def legalmoves(self):
-        pass
-
+        if self.team == 0:
+            if board[self.coords[1]-1][self.coords[0]] == 0:
+                print("-1=free")
+            if self.coords[1] == 6:
+                if board[self.coords[1]-2][self.coords[0]] == 0:
+                    print("-2=free")
+        elif self.team == 1:
+            if board[self.coords[1]+1][self.coords[0]] == 0:
+                print("+1=free")
+            if self.coords[1] == 1:
+                if board[self.coords[1]+2][self.coords[0]] == 0:
+                    print("+2=free")
+    
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Pawn.coords[0]+25, Pawn.coords[1]-35), 25)
 
@@ -106,7 +129,6 @@ class Rook:
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Rook.coords[0]+25, Rook.coords[1]-35), 25)
 
-
 class Knight:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -125,7 +147,6 @@ class Knight:
     def drawmoves(self):
         pygame.draw.circle(window, (255,0,0), (Knight.coords[0]+25, Knight.coords[1]-35), 25)
     
-
 class Bishop:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -181,6 +202,12 @@ class King:
         pygame.draw.circle(window, (255,0,0), (King.coords[0]+25, King.coords[1]-35), 25)
 
 
+# Mouse-Click Handeling
+def handle_mouse_click(c_x, c_y):
+    print(board[c_y+8][c_x])
+    for piece in all_pieces:
+        if piece.coords == (c_x, c_y):
+            piece.legalmoves()
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
@@ -216,6 +243,11 @@ bbishopF = Bishop((5,0), 1, bb)
 bqueenD = Queen((3,0), 1, bq)
 bkingE = King((4,0), 1, bk)
 
+all_pieces = [wpawnA, wpawnB, wpawnC, wpawnD, wpawnE, wpawnF, wpawnG, wpawnH, 
+              wrookA, wrookH, wknightB, wknightG, wbishopC, wbishopF, wqueenD, wkingE, 
+              bpawnA, bpawnB, bpawnC, bpawnD, bpawnE, bpawnF, bpawnG, bpawnH, 
+              brookA, brookH, bknightB, bknightG, bbishopC, bbishopF, bqueenD, bkingE]
+
 def drawall():
     wpawnA.draw()
     wpawnB.draw()
@@ -250,9 +282,6 @@ def drawall():
     bqueenD.draw()
     bkingE.draw()
 
-
-
-
 # Main Loop
 running = True
 while running == True:
@@ -261,6 +290,7 @@ while running == True:
 
     drawboard()
     drawall()
+    listboard()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -274,7 +304,11 @@ while running == True:
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickpos = event.pos
-            #handle_mouse_click(clickpos)
+            click_x = math.floor(clickpos[0]/60)
+            click_y = math.floor(clickpos[1]/60)
+            print('click at: ', click_x, click_y)
+            handle_mouse_click(click_x, click_y)
+
 
     
 

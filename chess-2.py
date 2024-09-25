@@ -15,6 +15,7 @@ lgray = (190,190,190)
 dgray = (50,50,50)
 black = (0,0,0)
 red = (255,0,0)
+green = (0,255,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
@@ -22,6 +23,8 @@ font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
 h_moves = []
 turn = True
+capture = False
+
 
 board = [
     [0,0,0,0,0,0,0,0],
@@ -92,11 +95,15 @@ class Pawn:
         self.img = img
         self.click = False
         self.lmoves = []
+        self.capture = []
+        self.piece = 'p'
+        self.ex = True
 
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'p'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'p'
 
 
     def legalmoves(self):
@@ -107,6 +114,14 @@ class Pawn:
                     if self.coords[1] == 6:
                         if board[self.coords[1]-2][self.coords[0]] == 0:
                             self.lmoves.append((self.coords[1]-2,self.coords[0]))
+                if self.coords[0] <= 6:
+                    if board[self.coords[1]-1][self.coords[0]+1] == 1:
+                        if isenemy(self.coords[0]+1, self.coords[1]-1, self.team) == True:
+                            self.capture.append((self.coords[1]-1,self.coords[0]+1))
+                if self.coords[0] >= 1:
+                    if board[self.coords[1]-1][self.coords[0]-1] == 1:
+                        if isenemy(self.coords[0]-1, self.coords[1]-1, self.team) == True:
+                            self.capture.append((self.coords[1]-1,self.coords[0]-1))
         elif self.team == 1:
             if turn == False:
                 if board[self.coords[1]+1][self.coords[0]] == 0:
@@ -114,6 +129,14 @@ class Pawn:
                     if self.coords[1] == 1:
                         if board[self.coords[1]+2][self.coords[0]] == 0:
                             self.lmoves.append((self.coords[1]+2,self.coords[0]))
+                if self.coords[0] <= 6:
+                    if board[self.coords[1]+1][self.coords[0]+1] == 1:
+                        if isenemy(self.coords[0]+1, self.coords[1]+1, self.team) == True:
+                            self.capture.append((self.coords[1]+1,self.coords[0]+1))
+                if self.coords[0] >= 1:
+                    if board[self.coords[1]+1][self.coords[0]-1] == 1:
+                        if isenemy(self.coords[0]-1, self.coords[1]+1, self.team) == True:
+                            self.capture.append((self.coords[1]+1,self.coords[0]-1))
     
 
 class Rook:
@@ -220,13 +243,32 @@ class King:
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn
+    global capture
     for piece in all_pieces:
         if piece.click == True:
             if (c_y,c_x) in piece.lmoves:
+                board[piece.coords[1]][piece.coords[0]] = 0
+                board[piece.coords[1]+8][piece.coords[0]] = ''
                 piece.coords = (c_x, c_y)
+                board[piece.coords[1]][piece.coords[0]] = 1
+                board[piece.coords[1]+8][piece.coords[0]] = piece.piece
+                turn = not turn
+            if (c_y, c_x) in piece.capture:
+                for rem in all_pieces:
+                    if rem.coords == (c_x, c_y):
+                        board[rem.coords[1]][rem.coords[0]] = 0
+                        board[rem.coords[1]+8][rem.coords[0]] = ''
+                        rem.coords = (10,10)
+                        rem.ex = False
+                board[piece.coords[1]][piece.coords[0]] = 0
+                board[piece.coords[1]+8][piece.coords[0]] = ''
+                piece.coords = (c_x, c_y)
+                board[piece.coords[1]][piece.coords[0]] = 1
+                board[piece.coords[1]+8][piece.coords[0]] = piece.piece
                 turn = not turn
         piece.click=False
         piece.lmoves=[]
+        piece.capture=[]
         if piece.coords == (c_x, c_y):
             piece.click=not piece.click
             piece.legalmoves()
@@ -235,8 +277,17 @@ def highlight_moves():
     for piece in all_pieces:
         if piece.click == True:
             for i in range(len(piece.lmoves)):
-                print(piece.click)
-                pygame.draw.rect(window, red, (piece.lmoves[i][1]*60, piece.lmoves[i][0]*60, 60 ,60), 3)
+                pygame.draw.rect(window, green, (piece.lmoves[i][1]*60, piece.lmoves[i][0]*60, 60 ,60), 3)
+            for i in range(len(piece.capture)):
+                pygame.draw.rect(window, red, (piece.capture[i][1]*60, piece.capture[i][0]*60, 60 ,60), 3)
+
+def isenemy(x,y,ownteam):
+    for piece in all_pieces:
+        if piece.coords == (x, y):
+            if piece.team != ownteam:
+                return True
+            else:
+                return False
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)

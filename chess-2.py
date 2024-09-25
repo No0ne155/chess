@@ -185,13 +185,19 @@ class Knight:
                     if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
                         if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:                           
                             self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
+                            if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
+                                self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
         elif self.team == 1:
             if turn == False:
                 for i in range(len(k_moves)):
                     if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
                         if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:
                             self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-                            print(self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0])
+                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
+                            if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
+                                self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+
 class Bishop:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords

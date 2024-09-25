@@ -14,11 +14,13 @@ white = (255,255,255)
 lgray = (190,190,190)
 dgray = (50,50,50)
 black = (0,0,0)
+red = (255,0,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
 font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
+h_moves = []
 
 board = [
     [0,0,0,0,0,0,0,0],
@@ -87,6 +89,8 @@ class Pawn:
         self.coords = coords
         self.team = team
         self.img = img
+        self.click = False
+        self.lmoves = []
 
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -97,25 +101,25 @@ class Pawn:
     def legalmoves(self):
         if self.team == 0:
             if board[self.coords[1]-1][self.coords[0]] == 0:
-                print("-1=free")
-            if self.coords[1] == 6:
-                if board[self.coords[1]-2][self.coords[0]] == 0:
-                    print("-2=free")
+                self.lmoves.append((self.coords[1]-1,self.coords[0]))
+                if self.coords[1] == 6:
+                    if board[self.coords[1]-2][self.coords[0]] == 0:
+                        self.lmoves.append((self.coords[1]-2,self.coords[0]))
         elif self.team == 1:
             if board[self.coords[1]+1][self.coords[0]] == 0:
-                print("+1=free")
-            if self.coords[1] == 1:
-                if board[self.coords[1]+2][self.coords[0]] == 0:
-                    print("+2=free")
-    
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (Pawn.coords[0]+25, Pawn.coords[1]-35), 25)
+                self.lmoves.append((self.coords[1]+1,self.coords[0]))
+                if self.coords[1] == 1:
+                    if board[self.coords[1]+2][self.coords[0]] == 0:
+                        self.lmoves.append((self.coords[1]+2,self.coords[0]))
+
 
 class Rook:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
         self.team = team
         self.img = img
+        self.click = False
+        self.lmoves = []
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -134,6 +138,8 @@ class Knight:
         self.coords = coords
         self.team = team
         self.img = img
+        self.lmoves = []
+        self.click = False
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -152,6 +158,8 @@ class Bishop:
         self.coords = coords
         self.team = team
         self.img = img
+        self.click = False
+        self.lmoves = []
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -170,6 +178,8 @@ class Queen:
         self.coords = coords
         self.team = team
         self.img = img
+        self.click = False
+        self.lmoves = []
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -188,6 +198,8 @@ class King:
         self.coords = coords
         self.team = team
         self.img = img
+        self.click = False
+        self.lmoves = []
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
@@ -204,10 +216,18 @@ class King:
 
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
-    print(board[c_y+8][c_x])
     for piece in all_pieces:
+        piece.click=False
+        piece.lmoves=[]
         if piece.coords == (c_x, c_y):
+            piece.click=not piece.click
             piece.legalmoves()
+
+def highlight_moves():
+    for piece in all_pieces:
+        if piece.click == True:
+            for i in range(len(piece.lmoves)):
+                pygame.draw.rect(window, red, (piece.lmoves[i][1]*60, piece.lmoves[i][0]*60, 60 ,60), 3)
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
@@ -291,6 +311,7 @@ while running == True:
     drawboard()
     drawall()
     listboard()
+    highlight_moves()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -301,6 +322,8 @@ while running == True:
             elif event.key == pygame.K_b:
                 for i in range(len(board)):
                     print(board[i])
+            elif event.key == pygame.K_l:
+                print(wpawnE.lmoves)
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickpos = event.pos

@@ -111,7 +111,7 @@ class Pawn:
                 if self.coords[1] == 1:
                     if board[self.coords[1]+2][self.coords[0]] == 0:
                         self.lmoves.append((self.coords[1]+2,self.coords[0]))
-
+    
 
 class Rook:
     def __init__(self, coords, team, img ) -> None:
@@ -217,6 +217,9 @@ class King:
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     for piece in all_pieces:
+        if piece.click == True:
+            if (c_y,c_x) in piece.lmoves:
+                piece.coords = (c_x, c_y)
         piece.click=False
         piece.lmoves=[]
         if piece.coords == (c_x, c_y):
@@ -227,6 +230,7 @@ def highlight_moves():
     for piece in all_pieces:
         if piece.click == True:
             for i in range(len(piece.lmoves)):
+                print(piece.click)
                 pygame.draw.rect(window, red, (piece.lmoves[i][1]*60, piece.lmoves[i][0]*60, 60 ,60), 3)
 
 wpawnA = Pawn((0,6), 0, wp)

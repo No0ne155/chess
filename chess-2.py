@@ -105,7 +105,6 @@ class Pawn:
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'p'
 
-
     def legalmoves(self):
         if self.team == 0:
             if turn == True:
@@ -146,18 +145,19 @@ class Rook:
         self.img = img
         self.click = False
         self.lmoves = []
+        self.capture = []
+        self.piece = 'r'
+        self.ex = True
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'r'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'r'
 
 
     def legalmoves(self):
         pass
-
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (Rook.coords[0]+25, Rook.coords[1]-35), 25)
 
 class Knight:
     def __init__(self, coords, team, img ) -> None:
@@ -166,19 +166,32 @@ class Knight:
         self.img = img
         self.lmoves = []
         self.click = False
+        self.capture = []
+        self.piece = 'r'
+        self.ex = True
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'n'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'n'
 
 
     def legalmoves(self):
-        pass
-
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (Knight.coords[0]+25, Knight.coords[1]-35), 25)
-    
+        k_moves = [(-2,-1), (-2,+1), (-1,-2), (-1,+2), (+1,-2), (+1,+2), (+2,-1), (+2,+1)]
+        if self.team == 0:
+            if turn == True:
+                for i in range(len(k_moves)):
+                    if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
+                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:                           
+                            self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+        elif self.team == 1:
+            if turn == False:
+                for i in range(len(k_moves)):
+                    if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
+                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:
+                            self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                            print(self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0])
 class Bishop:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -186,18 +199,19 @@ class Bishop:
         self.img = img
         self.click = False
         self.lmoves = []
+        self.capture = []
+        self.piece = 'b'
+        self.ex = True
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'b'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'b'
 
 
     def legalmoves(self):
         pass
-
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (Bishop.coords[0]+25, Bishop.coords[1]-35), 25)
 
 class Queen:
     def __init__(self, coords, team, img ) -> None:
@@ -206,18 +220,19 @@ class Queen:
         self.img = img
         self.click = False
         self.lmoves = []
+        self.capture = []
+        self.piece = 'q'
+        self.ex = True
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'q'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'q'
 
 
     def legalmoves(self):
         pass
-
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (Queen.coords[0]+25, Queen.coords[1]-35), 25)
 
 class King:
     def __init__(self, coords, team, img ) -> None:
@@ -226,11 +241,15 @@ class King:
         self.img = img
         self.click = False
         self.lmoves = []
+        self.capture = []
+        self.piece = 'k'
+        self.ex = True
     
     def draw(self):
         window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-        board[self.coords[1]][self.coords[0]] = 1
-        board[self.coords[1]+8][self.coords[0]] = 'k'
+        if self.ex == True:
+            board[self.coords[1]][self.coords[0]] = 1
+            board[self.coords[1]+8][self.coords[0]] = 'k'
 
 
     def legalmoves(self):

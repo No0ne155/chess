@@ -87,7 +87,7 @@ def listboard():
             display_text(f"{board[i][j]}¦", 500+(j*30), 10+(i*30))
 
 
-
+# Klasse für Bauern
 class Pawn:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -99,12 +99,14 @@ class Pawn:
         self.piece = 'p'
         self.ex = True
 
+    # Funktion um die Figur zu zeichnen
     def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'p'
 
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         if self.team == 0:
             if turn == True:
@@ -137,7 +139,7 @@ class Pawn:
                         if isenemy(self.coords[0]-1, self.coords[1]+1, self.team) == True:
                             self.capture.append((self.coords[1]+1,self.coords[0]-1))
     
-
+# Klasse für Türme
 class Rook:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -149,13 +151,14 @@ class Rook:
         self.piece = 'r'
         self.ex = True
     
-    def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
+    # Funktion um die Figur zu zeichnen  
+    def draw(self): 
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'r'
 
-
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
 
@@ -170,13 +173,14 @@ class Knight:
         self.piece = 'r'
         self.ex = True
     
+    # Funktion um die Figur zu zeichnen
     def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'n'
 
-
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         k_moves = [(-2,-1), (-2,+1), (-1,-2), (-1,+2), (+1,-2), (+1,+2), (+2,-1), (+2,+1)]
         if self.team == 0:
@@ -208,14 +212,15 @@ class Bishop:
         self.capture = []
         self.piece = 'b'
         self.ex = True
-    
+
+    # Funktion um die Figur zu zeichnen
     def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'b'
 
-
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
 
@@ -229,14 +234,15 @@ class Queen:
         self.capture = []
         self.piece = 'q'
         self.ex = True
-    
+
+    # Funktion um die Figur zu zeichnen
     def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'q'
 
-
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
 
@@ -250,19 +256,17 @@ class King:
         self.capture = []
         self.piece = 'k'
         self.ex = True
-    
+
+    # Funktion um die Figur zu zeichnen
     def draw(self):
-        window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
         if self.ex == True:
+            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'k'
 
-
+    # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
-
-    def drawmoves(self):
-        pygame.draw.circle(window, (255,0,0), (King.coords[0]+25, King.coords[1]-35), 25)
 
 
 # Mouse-Click Handeling

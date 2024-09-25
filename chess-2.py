@@ -21,6 +21,7 @@ turn = True
 font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
 h_moves = []
+turn = True
 
 board = [
     [0,0,0,0,0,0,0,0],
@@ -100,17 +101,19 @@ class Pawn:
 
     def legalmoves(self):
         if self.team == 0:
-            if board[self.coords[1]-1][self.coords[0]] == 0:
-                self.lmoves.append((self.coords[1]-1,self.coords[0]))
-                if self.coords[1] == 6:
-                    if board[self.coords[1]-2][self.coords[0]] == 0:
-                        self.lmoves.append((self.coords[1]-2,self.coords[0]))
+            if turn == True:
+                if board[self.coords[1]-1][self.coords[0]] == 0:
+                    self.lmoves.append((self.coords[1]-1,self.coords[0]))
+                    if self.coords[1] == 6:
+                        if board[self.coords[1]-2][self.coords[0]] == 0:
+                            self.lmoves.append((self.coords[1]-2,self.coords[0]))
         elif self.team == 1:
-            if board[self.coords[1]+1][self.coords[0]] == 0:
-                self.lmoves.append((self.coords[1]+1,self.coords[0]))
-                if self.coords[1] == 1:
-                    if board[self.coords[1]+2][self.coords[0]] == 0:
-                        self.lmoves.append((self.coords[1]+2,self.coords[0]))
+            if turn == False:
+                if board[self.coords[1]+1][self.coords[0]] == 0:
+                    self.lmoves.append((self.coords[1]+1,self.coords[0]))
+                    if self.coords[1] == 1:
+                        if board[self.coords[1]+2][self.coords[0]] == 0:
+                            self.lmoves.append((self.coords[1]+2,self.coords[0]))
     
 
 class Rook:
@@ -216,10 +219,12 @@ class King:
 
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
+    global turn
     for piece in all_pieces:
         if piece.click == True:
             if (c_y,c_x) in piece.lmoves:
                 piece.coords = (c_x, c_y)
+                turn = not turn
         piece.click=False
         piece.lmoves=[]
         if piece.coords == (c_x, c_y):

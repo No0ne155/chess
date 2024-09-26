@@ -106,7 +106,7 @@ class Pawn:
             board[self.coords[1]][self.coords[0]] = 1
             board[self.coords[1]+8][self.coords[0]] = 'p'
 
-    # Funktion um die Legalen züge in eine liste hinzuzufügen
+    # Funktion um die legalen Züge in eine liste hinzuzufügen
     def legalmoves(self):
         if self.team == 0:
             if turn == True:

@@ -160,7 +160,12 @@ class Rook:
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
-        pass
+        if self.team == 0:
+            if turn == True:
+                pass
+        elif self.team == 1:
+            if turn == False:
+                pass
 
 class Knight:
     def __init__(self, coords, team, img ) -> None:

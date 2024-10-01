@@ -86,8 +86,12 @@ def listboard():
         for j in range(len(board[i])):
             display_text(f"{board[i][j]}¦", 500+(j*30), 10+(i*30))
 
-def isrange(value):
-    if value >= 6 and value <= 7:
+def israngep(valuep):
+    if valuep >= 1 and valuep <= 7:
+        return True
+    
+def israngem(valuem):
+    if valuem >= -7 and valuem <= -1:
         return True
 
 
@@ -166,14 +170,74 @@ class Rook:
     def legalmoves(self):
         if self.team == 0:
             if turn == True:
-                for i in range(7):
-                    pass
-                i=1
-                while isrange(i) == True:
-                    pass
+                s = 1
+                while israngep(s) == True:
+                    if 0 <= self.coords[1]+s <= 7:
+                        if board[self.coords[1]+s][self.coords[0]] == 0:
+                            self.lmoves.append((self.coords[1]+s, self.coords[0]))
+                        
+                        if board[self.coords[1]+s][self.coords[0]] == 1:
+                            self.capture.append((self.coords[1]+s, self.coords[0]))
+                            s = s+7
+                    s = s+1
+                o = 1
+                while israngep(o) == True:
+                    if 0 <= self.coords[0]+o <= 7:
+                        if board[self.coords[1]][self.coords[0]+o] == 0:
+                            self.lmoves.append((self.coords[1], self.coords[0]+o))
+                        if board[self.coords[1]][self.coords[0]+o] == 1:
+                            self.capture.append((self.coords[1], self.coords[0]+o))
+                            o = o+7
+                    o = o+1
+                n = -1
+                while israngep(n) == True:
+                    if 0 <= self.coords[0]+n <= 7:
+                        if board[self.coords[1]][self.coords[0]+n] == 0:
+                            self.lmoves.append((self.coords[1], self.coords[0]+n))
+                        if board[self.coords[1]][self.coords[0]+n] == 1:
+                            self.capture.append((self.coords[1], self.coords[0]+n))
+                            n = n+7
+                    n = n+1
+                w = 1
+                while israngep(w) == True:
+                    if 0 <= self.coords[0]+o <= 7:
+                        if board[self.coords[1]][self.coords[0]+o] == 0:
+                            self.lmoves.append((self.coords[1], self.coords[0]+o))
+                        if board[self.coords[1]][self.coords[0]+o] == 1:
+                            self.capture.append((self.coords[1], self.coords[0]+o))
+                            o = o+7
+                    o = o+1
+                
+
         elif self.team == 1:
             if turn == False:
-                pass
+                s = 1
+                while israngep(s) == True:
+                    if 0 <= self.coords[1]+s <= 7:
+                        if board[self.coords[1]+s][self.coords[0]] == 0:
+                            self.lmoves.append((self.coords[1]+s, self.coords[0]))
+                        if board[self.coords[1]+s][self.coords[0]] == 1:
+                            self.capture.append((self.coords[1]+s, self.coords[0]))
+                            s = s+7
+                    s = s+1
+                o = 1
+                while israngep(o) == True:
+                    if 0 <= self.coords[0]+o <= 7:
+                        if board[self.coords[1]][self.coords[0]+o] == 0:
+                            self.lmoves.append((self.coords[1], self.coords[0]+o))
+                        if board[self.coords[1]][self.coords[0]+o] == 1:
+                            self.capture.append((self.coords[1], self.coords[0]+o))
+                            o = o+7
+                    o = o+1
+                n = -1
+                while israngep(n) == True:
+                    if 0 <= self.coords[0]+n <= 7:
+                        if board[self.coords[1]][self.coords[0]+n] == 0:
+                            self.lmoves.append((self.coords[1], self.coords[0]+n))
+                        if board[self.coords[1]][self.coords[0]+n] == 1:
+                            self.capture.append((self.coords[1], self.coords[0]+n))
+                            n = n+7
+                    n = n+1
 
 class Knight:
     def __init__(self, coords, team, img ) -> None:

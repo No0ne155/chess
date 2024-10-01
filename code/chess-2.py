@@ -86,6 +86,10 @@ def listboard():
         for j in range(len(board[i])):
             display_text(f"{board[i][j]}¦", 500+(j*30), 10+(i*30))
 
+def isrange(value):
+    if value >= 6 and value <= 7:
+        return True
+
 
 # Klasse für Bauern
 class Pawn:
@@ -162,7 +166,11 @@ class Rook:
     def legalmoves(self):
         if self.team == 0:
             if turn == True:
-                pass
+                for i in range(7):
+                    pass
+                i=1
+                while isrange(i) == True:
+                    pass
         elif self.team == 1:
             if turn == False:
                 pass

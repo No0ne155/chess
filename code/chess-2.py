@@ -256,6 +256,7 @@ class Rook:
                             w = w-7
                     w = w-1
 
+# Klasse für Pferde
 class Knight:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -296,6 +297,7 @@ class Knight:
                             if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
                                 self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
 
+# Klasse für Läufer
 class Bishop:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -318,6 +320,7 @@ class Bishop:
     def legalmoves(self):
         pass
 
+# Klasse für Damen
 class Queen:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords
@@ -340,6 +343,7 @@ class Queen:
     def legalmoves(self):
         pass
 
+# Klasse für den König
 class King:
     def __init__(self, coords, team, img ) -> None:
         self.coords = coords

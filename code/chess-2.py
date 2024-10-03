@@ -291,7 +291,7 @@ class Bishop:
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
-
+    
 # Klasse für Damen
 class Queen:
     def __init__(self, coords, team, img ) -> None:
@@ -313,7 +313,7 @@ class Queen:
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
-        pass
+        Rook.legalmoves(self)
 
 # Klasse für den König
 class King:

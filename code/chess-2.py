@@ -168,93 +168,70 @@ class Rook:
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
-        if self.team == 0:
-            if turn == True:
-                s = 1
-                while israngep(s) == True:
-                    if 0 <= self.coords[1]+s <= 7:
-                        if board[self.coords[1]+s][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]+s, self.coords[0]))
-                        
-                        if board[self.coords[1]+s][self.coords[0]] == 1:
-                            if isenemy(self.coords[0], self.coords[1]+s, self.team) == True:
-                                self.capture.append((self.coords[1]+s, self.coords[0]))
-                            s = s+7
-                    s = s+1
-                o = 1
-                while israngep(o) == True:
-                    if 0 <= self.coords[0]+o <= 7:
-                        if board[self.coords[1]][self.coords[0]+o] == 0:
-                            self.lmoves.append((self.coords[1], self.coords[0]+o))
-                        if board[self.coords[1]][self.coords[0]+o] == 1:
-                            if isenemy(self.coords[0]+o, self.coords[1], self.team) == True:
-                                self.capture.append((self.coords[1], self.coords[0]+o))
-                            o = o+7
-                    o = o+1
-                n = -1
-                while israngen(n) == True:
-                    if 0 <= self.coords[1]+n <= 7:
-                        if board[self.coords[1]+n][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]+n, self.coords[0]))
-                        if board[self.coords[1]+n][self.coords[0]] == 1:
-                            if isenemy(self.coords[0], self.coords[1]+n, self.team) == True:
-                                self.capture.append((self.coords[1]+n, self.coords[0]))
-                            n = n-7
-                    n = n-1
-                w = -1
-                while israngen(w) == True:
-                    if 0 <= self.coords[0]+w <= 7:
-                        if board[self.coords[1]][self.coords[0]+w] == 0:
-                            self.lmoves.append((self.coords[1], self.coords[0]+w))
-                        if board[self.coords[1]][self.coords[0]+w] == 1:
-                            if isenemy(self.coords[0]+w, self.coords[1], self.team) == True:
-                                self.capture.append((self.coords[1], self.coords[0]+w))
-                            w = w-7
-                    w = w-1
-                
-
-        elif self.team == 1:
-            if turn == False:
-                s = 1
-                while israngep(s) == True:
-                    if 0 <= self.coords[1]+s <= 7:
-                        if board[self.coords[1]+s][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]+s, self.coords[0]))
-                        if board[self.coords[1]+s][self.coords[0]] == 1:
-                            if isenemy(self.coords[0], self.coords[1]+s, self.team) == True:
-                                self.capture.append((self.coords[1]+s, self.coords[0]))
-                            s = s+7
-                    s = s+1
-                o = 1
-                while israngep(o) == True:
-                    if 0 <= self.coords[0]+o <= 7:
-                        if board[self.coords[1]][self.coords[0]+o] == 0:
-                            self.lmoves.append((self.coords[1], self.coords[0]+o))
-                        if board[self.coords[1]][self.coords[0]+o] == 1:
-                            if isenemy(self.coords[0]+o, self.coords[1], self.team) == True:
-                                self.capture.append((self.coords[1], self.coords[0]+o))
-                            o = o+7
-                    o = o+1
-                n = -1
-                while israngen(n) == True:
-                    if 0 <= self.coords[1]+n <= 7:
-                        if board[self.coords[1]+n][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]+n, self.coords[0]))
-                        if board[self.coords[1]+n][self.coords[0]] == 1:
-                            if isenemy(self.coords[0], self.coords[1]+n, self.team) == True:
-                                self.capture.append((self.coords[1]+n, self.coords[0]))
-                            n = n-7
-                    n = n-1
-                w = -1
-                while israngen(w) == True:
-                    if 0 <= self.coords[0]+w <= 7:
-                        if board[self.coords[1]][self.coords[0]+w] == 0:
-                            self.lmoves.append((self.coords[1], self.coords[0]+w))
-                        if board[self.coords[1]][self.coords[0]+w] == 1:
-                            if isenemy(self.coords[0]+w, self.coords[1], self.team) == True:
-                                self.capture.append((self.coords[1], self.coords[0]+w))
-                            w = w-7
-                    w = w-1
+        s = 1
+        while israngep(s) == True:
+            if 0 <= self.coords[1]+s <= 7:
+                if board[self.coords[1]+s][self.coords[0]] == 0:
+                    if self.team == 0 and turn == True:
+                        self.lmoves.append((self.coords[1]+s, self.coords[0]))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1]+s, self.coords[0]))
+                if board[self.coords[1]+s][self.coords[0]] == 1:
+                    if isenemy(self.coords[0], self.coords[1]+s, self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1]+s, self.coords[0]))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1]+s, self.coords[0]))
+                    s = s+7
+            s = s+1
+        o = 1
+        while israngep(o) == True:
+            if 0 <= self.coords[0]+o <= 7:
+                if board[self.coords[1]][self.coords[0]+o] == 0:
+                    if self.team == 0 and turn == True:
+                        self.lmoves.append((self.coords[1], self.coords[0]+o))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1], self.coords[0]+o))
+                if board[self.coords[1]][self.coords[0]+o] == 1:
+                    if isenemy(self.coords[0]+o, self.coords[1], self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1], self.coords[0]+o))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1], self.coords[0]+o))
+                    o = o+7
+            o = o+1
+        n = -1
+        while israngen(n) == True:
+            if 0 <= self.coords[1]+n <= 7:
+                if board[self.coords[1]+n][self.coords[0]] == 0:
+                    if self.team == 0 and turn == True:
+                        self.lmoves.append((self.coords[1]+n, self.coords[0]))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1]+n, self.coords[0]))
+                if board[self.coords[1]+n][self.coords[0]] == 1:
+                    if isenemy(self.coords[0], self.coords[1]+n, self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1]+n, self.coords[0]))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1]+n, self.coords[0]))
+                    n = n-7
+            n = n-1
+        w = -1
+        while israngen(w) == True:
+            if 0 <= self.coords[0]+w <= 7:
+                if board[self.coords[1]][self.coords[0]+w] == 0:
+                    if self.team == 0 and turn == True:
+                        self.lmoves.append((self.coords[1], self.coords[0]+w))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1], self.coords[0]+w))
+                if board[self.coords[1]][self.coords[0]+w] == 1:
+                    if isenemy(self.coords[0]+w, self.coords[1], self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1], self.coords[0]+w))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1], self.coords[0]+w))
+                    w = w-7
+            w = w-1
 
 # Klasse für Pferde
 class Knight:
@@ -278,24 +255,19 @@ class Knight:
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         k_moves = [(-2,-1), (-2,+1), (-1,-2), (-1,+2), (+1,-2), (+1,+2), (+2,-1), (+2,+1)]
-        if self.team == 0:
-            if turn == True:
-                for i in range(len(k_moves)):
-                    if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
-                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:                           
-                            self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
-                            if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
-                                self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-        elif self.team == 1:
-            if turn == False:
-                for i in range(len(k_moves)):
-                    if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
-                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:
-                            self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-                        if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
-                            if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
-                                self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+        for i in range(len(k_moves)):
+            if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
+                if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:
+                    if self.team == 0 and turn == True:                           
+                        self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
+                    if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
 
 # Klasse für Läufer
 class Bishop:
@@ -488,7 +460,7 @@ def drawall():
     bbishopF.draw()
     bqueenD.draw()
     bkingE.draw()
-
+listb = False
 # Main Loop
 running = True
 while running == True:
@@ -497,8 +469,9 @@ while running == True:
 
     drawboard()
     drawall()
-    listboard()
     highlight_moves()
+    if listb == True:
+        listboard()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -509,6 +482,7 @@ while running == True:
             elif event.key == pygame.K_b:
                 for i in range(len(board)):
                     print(board[i])
+                listb = not listb
             elif event.key == pygame.K_l:
                 print(wpawnE.lmoves)
 

@@ -282,6 +282,7 @@ class Queen(Chess):
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         Rook.legalmoves(self)
+        Bishop.legalmoves(self)
 
 
 # Klasse für den König

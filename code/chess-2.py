@@ -156,6 +156,7 @@ class Pawn(Chess):
 class Rook(Chess):
     def __init__(self, coords, team, img) -> None:
         super().__init__(coords, team, img, 'r')
+        self.moved = False
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
@@ -270,9 +271,7 @@ class Bishop(Chess):
                                 self.capture.append((self.coords[1]+x, self.coords[0]+y))
                             if self.team == 1 and turn == False:
                                 self.capture.append((self.coords[1]+x, self.coords[0]+y))
-                        break
-                        
-                    
+                        break         
     
 # Klasse für Damen
 class Queen(Chess):
@@ -284,17 +283,34 @@ class Queen(Chess):
         Rook.legalmoves(self)
         Bishop.legalmoves(self)
 
-
 # Klasse für den König
 class King(Chess):
     def __init__(self, coords, team, img) -> None:
         super().__init__(coords, team, img, 'k')
+        self.moved = False
+        self.castle = []
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
-        pass
-
-
+        km =[[1,1],[1,0],[1,-1],[0,1],[0,-1], [-1,1],[-1,0],[-1,-1]]
+        for i in range(len(km)):
+            if 0 <= self.coords[0]+km[i][0] <= 7 and 0 <= self.coords[1]+km[i][1] <= 7:
+                if board[self.coords[1]+km[i][1]][self.coords[0]+km[i][0]] == 0:
+                    if self.team == 0 and turn == True:                           
+                        self.lmoves.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+                    if self.team == 1 and turn == False:
+                        self.lmoves.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+                if board[self.coords[1]+km[i][1]][self.coords[0]+km[i][0]] == 1:
+                    if isenemy(self.coords[0]+km[i][0], self.coords[1]+km[i][1], self.team) == True:
+                        if self.team == 0 and turn == True:
+                            self.capture.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+                        if self.team == 1 and turn == False:
+                            self.capture.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+        if self.moved == False and self.team == 0 and turn == True:
+            if wrookH.moved == False:
+                if board[7][self.coords[0]+1] == 0 and board[7][self.coords[0]+2] == 0:
+                    #self.castle.append('short')
+                    pass
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn
@@ -308,6 +324,11 @@ def handle_mouse_click(c_x, c_y):
                 board[piece.coords[1]][piece.coords[0]] = 1
                 board[piece.coords[1]+8][piece.coords[0]] = piece.piece
                 turn = not turn
+                if piece.piece == 'r':
+                    piece.moved = True
+                if piece.piece == 'k':
+                    piece.moved = True
+                    
             if (c_y, c_x) in piece.capture:
                 for rem in all_pieces:
                     if rem.coords == (c_x, c_y):
@@ -321,6 +342,10 @@ def handle_mouse_click(c_x, c_y):
                 board[piece.coords[1]][piece.coords[0]] = 1
                 board[piece.coords[1]+8][piece.coords[0]] = piece.piece
                 turn = not turn
+                if piece.piece == 'r':
+                    piece.moved = True
+                if piece.piece == 'k':
+                    piece.moved = True
         piece.click=False
         piece.lmoves=[]
         piece.capture=[]

@@ -253,7 +253,26 @@ class Bishop(Chess):
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
-        pass
+        bm = [[1,1],[1,-1],[-1,-1],[-1,1]]
+        for i in range(len(bm)):
+            for j in range(1,8):
+                y = bm[i][0]*j
+                x = bm[i][1]*j
+                if 0 <= self.coords[0]+y <= 7 and 0 <= self.coords[1]+x <= 7:
+                    if board[self.coords[1]+x][self.coords[0]+y] == 0:
+                        if self.team == 0 and turn == True:
+                            self.lmoves.append((self.coords[1]+x, self.coords[0]+y))
+                        if self.team == 1 and turn == False:
+                            self.lmoves.append((self.coords[1]+x, self.coords[0]+y))
+                    if board[self.coords[1]+x][self.coords[0]+y] == 1:
+                        if isenemy(self.coords[0]+y, self.coords[1]+x, self.team) == True:
+                            if self.team == 0 and turn == True:
+                                self.capture.append((self.coords[1]+x, self.coords[0]+y))
+                            if self.team == 1 and turn == False:
+                                self.capture.append((self.coords[1]+x, self.coords[0]+y))
+                        break
+                        
+                    
     
 # Klasse für Damen
 class Queen(Chess):
@@ -263,6 +282,7 @@ class Queen(Chess):
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         Rook.legalmoves(self)
+
 
 # Klasse für den König
 class King(Chess):

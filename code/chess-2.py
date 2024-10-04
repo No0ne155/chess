@@ -94,25 +94,30 @@ def israngen(valuem):
     if valuem >= -7 and valuem <= -1:
         return True
 
-
-# Klasse für Bauern
-class Pawn:
-    def __init__(self, coords, team, img ) -> None:
+class Chess:
+    def __init__(self, coords, team, img, piece) -> None:
         self.coords = coords
         self.team = team
         self.img = img
         self.click = False
         self.lmoves = []
         self.capture = []
-        self.piece = 'p'
+        self.piece = piece
         self.ex = True
-
-    # Funktion um die Figur zu zeichnen
+    
     def draw(self):
         if self.ex == True:
             window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
             board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'p'
+            board[self.coords[1]+8][self.coords[0]] = self.piece
+    
+    def legalmoves(self):
+        pass
+
+# Klasse für Bauern
+class Pawn(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'p')
 
     # Funktion um die legalen Züge in eine liste hinzuzufügen
     def legalmoves(self):
@@ -148,23 +153,9 @@ class Pawn:
                             self.capture.append((self.coords[1]+1,self.coords[0]-1))
     
 # Klasse für Türme
-class Rook:
-    def __init__(self, coords, team, img ) -> None:
-        self.coords = coords
-        self.team = team
-        self.img = img
-        self.click = False
-        self.lmoves = []
-        self.capture = []
-        self.piece = 'r'
-        self.ex = True
-    
-    # Funktion um die Figur zu zeichnen  
-    def draw(self): 
-        if self.ex == True:
-            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-            board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'r'
+class Rook(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'r')
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
@@ -234,23 +225,9 @@ class Rook:
             w = w-1
 
 # Klasse für Pferde
-class Knight:
-    def __init__(self, coords, team, img ) -> None:
-        self.coords = coords
-        self.team = team
-        self.img = img
-        self.lmoves = []
-        self.click = False
-        self.capture = []
-        self.piece = 'r'
-        self.ex = True
-    
-    # Funktion um die Figur zu zeichnen
-    def draw(self):
-        if self.ex == True:
-            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-            board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'n'
+class Knight(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'n')
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
@@ -270,69 +247,27 @@ class Knight:
                             self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
 
 # Klasse für Läufer
-class Bishop:
-    def __init__(self, coords, team, img ) -> None:
-        self.coords = coords
-        self.team = team
-        self.img = img
-        self.click = False
-        self.lmoves = []
-        self.capture = []
-        self.piece = 'b'
-        self.ex = True
-
-    # Funktion um die Figur zu zeichnen
-    def draw(self):
-        if self.ex == True:
-            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-            board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'b'
+class Bishop(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'b')
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         pass
     
 # Klasse für Damen
-class Queen:
-    def __init__(self, coords, team, img ) -> None:
-        self.coords = coords
-        self.team = team
-        self.img = img
-        self.click = False
-        self.lmoves = []
-        self.capture = []
-        self.piece = 'q'
-        self.ex = True
-
-    # Funktion um die Figur zu zeichnen
-    def draw(self):
-        if self.ex == True:
-            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-            board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'q'
+class Queen(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'q')
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):
         Rook.legalmoves(self)
 
 # Klasse für den König
-class King:
-    def __init__(self, coords, team, img ) -> None:
-        self.coords = coords
-        self.team = team
-        self.img = img
-        self.click = False
-        self.lmoves = []
-        self.capture = []
-        self.piece = 'k'
-        self.ex = True
-
-    # Funktion um die Figur zu zeichnen
-    def draw(self):
-        if self.ex == True:
-            window.blit(self.img, (self.coords[0]*60+5, self.coords[1]*60+5))
-            board[self.coords[1]][self.coords[0]] = 1
-            board[self.coords[1]+8][self.coords[0]] = 'k'
+class King(Chess):
+    def __init__(self, coords, team, img) -> None:
+        super().__init__(coords, team, img, 'k')
 
     # Funktion um die Legalen züge in eine liste hinzuzufügen
     def legalmoves(self):

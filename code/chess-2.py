@@ -309,8 +309,11 @@ class King(Chess):
         if self.moved == False and self.team == 0 and turn == True:
             if wrookH.moved == False:
                 if board[7][self.coords[0]+1] == 0 and board[7][self.coords[0]+2] == 0:
-                    #self.castle.append('short')
-                    pass
+                    self.lmoves.append((self.coords[1], self.coords[0]+2))
+        if self.moved == False and self.team == 1 and turn == False:
+            if brookH.moved == False:
+                if board[0][self.coords[0]+1] == 0 and board[0][self.coords[0]+2] == 0:
+                    self.lmoves.append((self.coords[1], self.coords[0]+2))
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn
@@ -318,6 +321,20 @@ def handle_mouse_click(c_x, c_y):
     for piece in all_pieces:
         if piece.click == True:
             if (c_y,c_x) in piece.lmoves:
+                if piece.piece == 'k':
+                    if piece.coords[0] - c_x == -2:
+                        if piece.team == 0 and turn == True:
+                            board[wrookH.coords[1]][wrookH.coords[0]] = 0
+                            board[wrookH.coords[1]+8][wrookH.coords[0]] = ''
+                            wrookH.coords = (wrookH.coords[0]-2,)+wrookH.coords[1:]
+                            board[wrookH.coords[1]][wrookH.coords[0]] = 1
+                            board[wrookH.coords[1]+8][wrookH.coords[0]] = 'r'
+                        if piece.team == 1 and turn == False:
+                            board[brookH.coords[1]][brookH.coords[0]] = 0
+                            board[brookH.coords[1]+8][brookH.coords[0]] = ''
+                            brookH.coords = (brookH.coords[0]-2,)+brookH.coords[1:]
+                            board[brookH.coords[1]][brookH.coords[0]] = 1
+                            board[brookH.coords[1]+8][brookH.coords[0]] = 'r'
                 board[piece.coords[1]][piece.coords[0]] = 0
                 board[piece.coords[1]+8][piece.coords[0]] = ''
                 piece.coords = (c_x, c_y)
@@ -328,6 +345,7 @@ def handle_mouse_click(c_x, c_y):
                     piece.moved = True
                 if piece.piece == 'k':
                     piece.moved = True
+
                     
             if (c_y, c_x) in piece.capture:
                 for rem in all_pieces:

@@ -317,6 +317,7 @@ class King(Chess):
             if brookH.moved == False:
                 if board[0][self.coords[0]+1] == 0 and board[0][self.coords[0]+2] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]+2))
+            if brookA.moved == False:
                 if board[0][self.coords[0]-1] == 0 and board[0][self.coords[0]-2] == 0 and board[0][self.coords[0]-3] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]-2))
 # Mouse-Click Handeling

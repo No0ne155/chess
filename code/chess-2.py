@@ -310,10 +310,15 @@ class King(Chess):
             if wrookH.moved == False:
                 if board[7][self.coords[0]+1] == 0 and board[7][self.coords[0]+2] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]+2))
+            if wrookA.moved == False:
+                if board[7][self.coords[0]-1] == 0 and board[7][self.coords[0]-2] == 0 and board[7][self.coords[0]-3] == 0:
+                    self.lmoves.append((self.coords[1], self.coords[0]-2))
         if self.moved == False and self.team == 1 and turn == False:
             if brookH.moved == False:
                 if board[0][self.coords[0]+1] == 0 and board[0][self.coords[0]+2] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]+2))
+                if board[0][self.coords[0]-1] == 0 and board[0][self.coords[0]-2] == 0 and board[0][self.coords[0]-3] == 0:
+                    self.lmoves.append((self.coords[1], self.coords[0]-2))
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn
@@ -335,6 +340,19 @@ def handle_mouse_click(c_x, c_y):
                             brookH.coords = (brookH.coords[0]-2,)+brookH.coords[1:]
                             board[brookH.coords[1]][brookH.coords[0]] = 1
                             board[brookH.coords[1]+8][brookH.coords[0]] = 'r'
+                    if piece.coords[0] - c_x == 2:
+                        if piece.team == 0 and turn == True:
+                            board[wrookA.coords[1]][wrookA.coords[0]] = 0
+                            board[wrookA.coords[1]+8][wrookA.coords[0]] = ''
+                            wrookA.coords = (wrookA.coords[0]+3,)+wrookA.coords[1:]
+                            board[wrookA.coords[1]][wrookA.coords[0]] = 1
+                            board[wrookA.coords[1]+8][wrookA.coords[0]] = 'r'
+                        if piece.team == 1 and turn == False:
+                            board[brookA.coords[1]][brookA.coords[0]] = 0
+                            board[brookA.coords[1]+8][brookA.coords[0]] = ''
+                            brookA.coords = (brookA.coords[0]+3,)+brookA.coords[1:]
+                            board[brookA.coords[1]][brookA.coords[0]] = 1
+                            board[brookA.coords[1]+8][brookA.coords[0]] = 'r'
                 board[piece.coords[1]][piece.coords[0]] = 0
                 board[piece.coords[1]+8][piece.coords[0]] = ''
                 piece.coords = (c_x, c_y)

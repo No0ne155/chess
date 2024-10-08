@@ -21,6 +21,7 @@ window = pygame.display.set_mode((800, 600))
 turn = True
 font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
+myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
 turn = True
 capture = False
@@ -65,6 +66,10 @@ def display_text(text,x,y):
     text_surface =myfont.render(text, True, black)
     window.blit(text_surface, (x,y))
 
+def display_text2(text,x,y):
+    text_surface =myfont2.render(text, True, (0,0,0))
+    window.blit(text_surface, (x,y))
+
 # Funktion um das Brett anzuzeigen
 def drawboard():
     for i in range(1,8,2):
@@ -80,6 +85,12 @@ def drawboard():
         for j in range(1,8,2):
             pygame.draw.rect(window, lgray, ((i*60),(j*60),60,60))
     pygame.draw.rect(window, black, (0,0,480 ,480),2)
+    letters = ['A','B','C','D','E','F','G','H']
+    for i in range(8):
+        pygame.draw.rect(window, black, (0+i*60,480,60 ,20),2)
+        pygame.draw.rect(window, black, (480,0+i*60,20 ,60),2)
+        display_text2(f'{letters[i]}', (i+1)*60-35, 482)
+        display_text2(f'{i+1}', 485, 505-(i+1)*60)
 
 def listboard():
     for i in range(len(board)):
@@ -320,6 +331,7 @@ class King(Chess):
             if brookA.moved == False:
                 if board[0][self.coords[0]-1] == 0 and board[0][self.coords[0]-2] == 0 and board[0][self.coords[0]-3] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]-2))
+
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn

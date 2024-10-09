@@ -23,6 +23,7 @@ font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
 myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
+alllmoves = []
 turn = True
 capture = False
 
@@ -67,7 +68,7 @@ def display_text(text,x,y):
     window.blit(text_surface, (x,y))
 
 def display_text2(text,x,y):
-    text_surface =myfont2.render(text, True, (0,0,0))
+    text_surface =myfont2.render(text, True, black)
     window.blit(text_surface, (x,y))
 
 # Funktion um das Brett anzuzeigen
@@ -418,6 +419,20 @@ def isenemy(x,y,ownteam):
             else:
                 return False
 
+def ischeck():
+    alllmoves = []
+    wking = wkingE.coords
+    bking = bkingE.coords
+    for piece in all_pieces:
+        piece.legalmoves()
+        for i in range(len(piece.lmoves)):
+            alllmoves.append(piece.lmoves[i])
+        piece.lmoves = []
+    print(alllmoves)
+    print('-----')
+        
+
+
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
 wpawnC = Pawn((2,6), 0, wp)
@@ -497,9 +512,11 @@ while running == True:
     clock.tick(60)
     window.fill(white)
 
+    ischeck()
     drawboard()
     drawall()
     highlight_moves()
+
     if listb == True:
         listboard()
 
@@ -514,7 +531,7 @@ while running == True:
                     print(board[i])
                 listb = not listb
             elif event.key == pygame.K_l:
-                print(wpawnE.lmoves)
+                print(alllmoves)
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickpos = event.pos

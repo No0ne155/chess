@@ -424,10 +424,14 @@ def ischeck():
     wking = wkingE.coords
     bking = bkingE.coords
     for piece in all_pieces:
-        piece.legalmoves()
-        for i in range(len(piece.lmoves)):
-            alllmoves.append(piece.lmoves[i])
-        piece.lmoves = []
+        if piece.click == False:
+            piece.legalmoves()
+            for i in range(len(piece.lmoves)):
+                alllmoves.append(piece.lmoves[i])
+            piece.lmoves = []
+        if piece.click == True:
+            for i in range(len(piece.lmoves)):
+                alllmoves.append(piece.lmoves[i])
     print(alllmoves)
     print('-----')
         
@@ -512,10 +516,10 @@ while running == True:
     clock.tick(60)
     window.fill(white)
 
-    ischeck()
     drawboard()
     drawall()
     highlight_moves()
+    ischeck()
 
     if listb == True:
         listboard()

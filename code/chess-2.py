@@ -2,13 +2,6 @@ import pygame
 import math
 pygame.init()
 
-# Pieces:
-# 0 = pawn
-# 1 = bishop
-# 2 = horse
-# 3 = rook
-# 4 = queen
-# 5 = king
 
 white = (255,255,255)
 lgray = (190,190,190)
@@ -63,9 +56,11 @@ wr = pygame.image.load('C:/code/chess/img/wr.png')
 
 pygame.display.set_caption('Chess')
 
+
 def display_text(text,x,y):
     text_surface =myfont.render(text, True, black)
     window.blit(text_surface, (x,y))
+
 
 def display_text2(text,x,y):
     text_surface =myfont2.render(text, True, black)

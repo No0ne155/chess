@@ -9,6 +9,8 @@ dgray = (50,50,50)
 black = (0,0,0)
 red = (255,0,0)
 green = (0,255,0)
+orange = (255, 95, 31)
+violet = (143, 0, 255)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
@@ -16,7 +18,8 @@ font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
 myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
-alllmoves = []
+allW = []
+allB = []
 turn = True
 capture = False
 
@@ -129,35 +132,33 @@ class Pawn(Chess):
     # Funktion um die legalen Züge in eine liste hinzuzufügen
     def legalmoves(self):
         if self.team == 0:
-            if turn == True:
-                if board[self.coords[1]-1][self.coords[0]] == 0:
-                    self.lmoves.append((self.coords[1]-1,self.coords[0]))
-                    if self.coords[1] == 6:
-                        if board[self.coords[1]-2][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]-2,self.coords[0]))
-                if self.coords[0] <= 6:
-                    if board[self.coords[1]-1][self.coords[0]+1] == 1:
-                        if isenemy(self.coords[0]+1, self.coords[1]-1, self.team) == True:
-                            self.capture.append((self.coords[1]-1,self.coords[0]+1))
-                if self.coords[0] >= 1:
-                    if board[self.coords[1]-1][self.coords[0]-1] == 1:
-                        if isenemy(self.coords[0]-1, self.coords[1]-1, self.team) == True:
-                            self.capture.append((self.coords[1]-1,self.coords[0]-1))
+            if board[self.coords[1]-1][self.coords[0]] == 0:
+                self.lmoves.append((self.coords[1]-1,self.coords[0]))
+                if self.coords[1] == 6:
+                    if board[self.coords[1]-2][self.coords[0]] == 0:
+                        self.lmoves.append((self.coords[1]-2,self.coords[0]))
+            if self.coords[0] <= 6:
+                if board[self.coords[1]-1][self.coords[0]+1] == 1:
+                    if isenemy(self.coords[0]+1, self.coords[1]-1, self.team) == True:
+                        self.capture.append((self.coords[1]-1,self.coords[0]+1))
+            if self.coords[0] >= 1:
+                if board[self.coords[1]-1][self.coords[0]-1] == 1:
+                    if isenemy(self.coords[0]-1, self.coords[1]-1, self.team) == True:
+                        self.capture.append((self.coords[1]-1,self.coords[0]-1))
         elif self.team == 1:
-            if turn == False:
-                if board[self.coords[1]+1][self.coords[0]] == 0:
-                    self.lmoves.append((self.coords[1]+1,self.coords[0]))
-                    if self.coords[1] == 1:
-                        if board[self.coords[1]+2][self.coords[0]] == 0:
-                            self.lmoves.append((self.coords[1]+2,self.coords[0]))
-                if self.coords[0] <= 6:
-                    if board[self.coords[1]+1][self.coords[0]+1] == 1:
-                        if isenemy(self.coords[0]+1, self.coords[1]+1, self.team) == True:
-                            self.capture.append((self.coords[1]+1,self.coords[0]+1))
-                if self.coords[0] >= 1:
-                    if board[self.coords[1]+1][self.coords[0]-1] == 1:
-                        if isenemy(self.coords[0]-1, self.coords[1]+1, self.team) == True:
-                            self.capture.append((self.coords[1]+1,self.coords[0]-1))
+            if board[self.coords[1]+1][self.coords[0]] == 0:
+                self.lmoves.append((self.coords[1]+1,self.coords[0]))
+                if self.coords[1] == 1:
+                    if board[self.coords[1]+2][self.coords[0]] == 0:
+                        self.lmoves.append((self.coords[1]+2,self.coords[0]))
+            if self.coords[0] <= 6:
+                if board[self.coords[1]+1][self.coords[0]+1] == 1:
+                    if isenemy(self.coords[0]+1, self.coords[1]+1, self.team) == True:
+                        self.capture.append((self.coords[1]+1,self.coords[0]+1))
+            if self.coords[0] >= 1:
+                if board[self.coords[1]+1][self.coords[0]-1] == 1:
+                    if isenemy(self.coords[0]-1, self.coords[1]+1, self.team) == True:
+                        self.capture.append((self.coords[1]+1,self.coords[0]-1))
     
 # Klasse für Türme
 class Rook(Chess):
@@ -171,64 +172,40 @@ class Rook(Chess):
         while israngep(s) == True:
             if 0 <= self.coords[1]+s <= 7:
                 if board[self.coords[1]+s][self.coords[0]] == 0:
-                    if self.team == 0 and turn == True:
-                        self.lmoves.append((self.coords[1]+s, self.coords[0]))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1]+s, self.coords[0]))
+                    self.lmoves.append((self.coords[1]+s, self.coords[0]))
                 if board[self.coords[1]+s][self.coords[0]] == 1:
                     if isenemy(self.coords[0], self.coords[1]+s, self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1]+s, self.coords[0]))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1]+s, self.coords[0]))
+                        self.capture.append((self.coords[1]+s, self.coords[0]))
                     s = s+7
             s = s+1
         o = 1
         while israngep(o) == True:
             if 0 <= self.coords[0]+o <= 7:
                 if board[self.coords[1]][self.coords[0]+o] == 0:
-                    if self.team == 0 and turn == True:
-                        self.lmoves.append((self.coords[1], self.coords[0]+o))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1], self.coords[0]+o))
+                    self.lmoves.append((self.coords[1], self.coords[0]+o))
                 if board[self.coords[1]][self.coords[0]+o] == 1:
                     if isenemy(self.coords[0]+o, self.coords[1], self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1], self.coords[0]+o))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1], self.coords[0]+o))
+                        self.capture.append((self.coords[1], self.coords[0]+o))
                     o = o+7
             o = o+1
         n = -1
         while israngen(n) == True:
             if 0 <= self.coords[1]+n <= 7:
                 if board[self.coords[1]+n][self.coords[0]] == 0:
-                    if self.team == 0 and turn == True:
-                        self.lmoves.append((self.coords[1]+n, self.coords[0]))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1]+n, self.coords[0]))
+                    self.lmoves.append((self.coords[1]+n, self.coords[0]))
                 if board[self.coords[1]+n][self.coords[0]] == 1:
                     if isenemy(self.coords[0], self.coords[1]+n, self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1]+n, self.coords[0]))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1]+n, self.coords[0]))
+                        self.capture.append((self.coords[1]+n, self.coords[0]))
                     n = n-7
             n = n-1
         w = -1
         while israngen(w) == True:
             if 0 <= self.coords[0]+w <= 7:
                 if board[self.coords[1]][self.coords[0]+w] == 0:
-                    if self.team == 0 and turn == True:
-                        self.lmoves.append((self.coords[1], self.coords[0]+w))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1], self.coords[0]+w))
+                    self.lmoves.append((self.coords[1], self.coords[0]+w))
                 if board[self.coords[1]][self.coords[0]+w] == 1:
                     if isenemy(self.coords[0]+w, self.coords[1], self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1], self.coords[0]+w))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1], self.coords[0]+w))
+                        self.capture.append((self.coords[1], self.coords[0]+w))
                     w = w-7
             w = w-1
 
@@ -243,16 +220,10 @@ class Knight(Chess):
         for i in range(len(k_moves)):
             if 0 <= self.coords[0]+k_moves[i][0] <= 7 and 0 <= self.coords[1]+k_moves[i][1] <= 7:
                 if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 0:
-                    if self.team == 0 and turn == True:                           
-                        self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                    self.lmoves.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
                 if board[self.coords[1]+k_moves[i][1]][self.coords[0]+k_moves[i][0]] == 1:
                     if isenemy(self.coords[0]+k_moves[i][0], self.coords[1]+k_moves[i][1], self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
+                        self.capture.append((self.coords[1]+k_moves[i][1], self.coords[0]+k_moves[i][0]))
 
 # Klasse für Läufer
 class Bishop(Chess):
@@ -268,15 +239,9 @@ class Bishop(Chess):
                 x = bm[i][1]*j
                 if 0 <= self.coords[0]+y <= 7 and 0 <= self.coords[1]+x <= 7:
                     if board[self.coords[1]+x][self.coords[0]+y] == 0:
-                        if self.team == 0 and turn == True:
-                            self.lmoves.append((self.coords[1]+x, self.coords[0]+y))
-                        if self.team == 1 and turn == False:
-                            self.lmoves.append((self.coords[1]+x, self.coords[0]+y))
+                        self.lmoves.append((self.coords[1]+x, self.coords[0]+y))
                     if board[self.coords[1]+x][self.coords[0]+y] == 1:
                         if isenemy(self.coords[0]+y, self.coords[1]+x, self.team) == True:
-                            if self.team == 0 and turn == True:
-                                self.capture.append((self.coords[1]+x, self.coords[0]+y))
-                            if self.team == 1 and turn == False:
                                 self.capture.append((self.coords[1]+x, self.coords[0]+y))
                         break         
     
@@ -303,16 +268,10 @@ class King(Chess):
         for i in range(len(km)):
             if 0 <= self.coords[0]+km[i][0] <= 7 and 0 <= self.coords[1]+km[i][1] <= 7:
                 if board[self.coords[1]+km[i][1]][self.coords[0]+km[i][0]] == 0:
-                    if self.team == 0 and turn == True:                           
-                        self.lmoves.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
-                    if self.team == 1 and turn == False:
-                        self.lmoves.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+                    self.lmoves.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
                 if board[self.coords[1]+km[i][1]][self.coords[0]+km[i][0]] == 1:
                     if isenemy(self.coords[0]+km[i][0], self.coords[1]+km[i][1], self.team) == True:
-                        if self.team == 0 and turn == True:
-                            self.capture.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
-                        if self.team == 1 and turn == False:
-                            self.capture.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
+                        self.capture.append((self.coords[1]+km[i][1], self.coords[0]+km[i][0]))
         if self.moved == False and self.team == 0 and turn == True:
             if wrookH.moved == False:
                 if board[7][self.coords[0]+1] == 0 and board[7][self.coords[0]+2] == 0:
@@ -372,8 +331,7 @@ def handle_mouse_click(c_x, c_y):
                     piece.moved = True
                 if piece.piece == 'k':
                     piece.moved = True
-
-                    
+    
             if (c_y, c_x) in piece.capture:
                 for rem in all_pieces:
                     if rem.coords == (c_x, c_y):
@@ -396,7 +354,8 @@ def handle_mouse_click(c_x, c_y):
         piece.capture=[]
         if piece.coords == (c_x, c_y):
             piece.click=not piece.click
-            piece.legalmoves()
+            if piece.team == 0 and turn == True or piece.team == 1 and turn == False:
+                piece.legalmoves()
 
 def highlight_moves():
     for piece in all_pieces:
@@ -405,6 +364,7 @@ def highlight_moves():
                 pygame.draw.rect(window, green, (piece.lmoves[i][1]*60, piece.lmoves[i][0]*60, 60 ,60), 3)
             for i in range(len(piece.capture)):
                 pygame.draw.rect(window, red, (piece.capture[i][1]*60, piece.capture[i][0]*60, 60 ,60), 3)
+
 
 def isenemy(x,y,ownteam):
     for piece in all_pieces:
@@ -415,20 +375,29 @@ def isenemy(x,y,ownteam):
                 return False
 
 def ischeck():
-    alllmoves = []
+    global allW
+    global allB
+    allW = []
+    allB = []
     wking = wkingE.coords
     bking = bkingE.coords
     for piece in all_pieces:
-        if piece.click == False:
-            piece.legalmoves()
-            for i in range(len(piece.lmoves)):
-                alllmoves.append(piece.lmoves[i])
-            piece.lmoves = []
-        if piece.click == True:
-            for i in range(len(piece.lmoves)):
-                alllmoves.append(piece.lmoves[i])
-    print(alllmoves)
-    print('-----')
+        if piece.ex == True:
+            if piece.click == False:
+                piece.legalmoves()
+                for i in range(len(piece.lmoves)):
+                    if piece.team == 0:
+                        allW.append(piece.lmoves[i])
+                    else:
+                        allB.append(piece.lmoves[i])
+                piece.lmoves = []
+            if piece.click == True:
+                for i in range(len(piece.lmoves)):
+                    if piece.team == 0:
+                        allW.append(piece.lmoves[i])
+                    else:
+                        allB.append(piece.lmoves[i])
+
         
 
 
@@ -513,11 +482,15 @@ while running == True:
 
     drawboard()
     drawall()
-    highlight_moves()
     ischeck()
+    highlight_moves()
 
     if listb == True:
         listboard()
+        for i in range(len(allB)):
+            pygame.draw.circle(window, black, (allB[i][1]*60+30, allB[i][0]*60+30,), 15,3)
+        for i in range(len(allW)): 
+            pygame.draw.circle(window, white, (allW[i][1]*60+30, allW[i][0]*60+30,), 12,3)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -530,7 +503,9 @@ while running == True:
                     print(board[i])
                 listb = not listb
             elif event.key == pygame.K_l:
-                print(alllmoves)
+                print(allW)
+                print(allB)
+                print('-----------------')
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickpos = event.pos

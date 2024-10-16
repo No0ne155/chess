@@ -398,8 +398,6 @@ def ischeck():
                     else:
                         allB.append(piece.lmoves[i])
 
-        
-
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
@@ -479,7 +477,6 @@ running = True
 while running == True:
     clock.tick(60)
     window.fill(white)
-
     drawboard()
     drawall()
     ischeck()
@@ -513,9 +510,5 @@ while running == True:
             click_y = math.floor(clickpos[1]/60)
             print('click at: ', click_x, click_y)
             handle_mouse_click(click_x, click_y)
-
-
-    
-
 
     pygame.display.update()

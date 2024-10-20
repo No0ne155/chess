@@ -374,6 +374,7 @@ def isenemy(x,y,ownteam):
             else:
                 return False
 
+# Definition to save all legal moves
 def ischeck():
     global allW
     global allB

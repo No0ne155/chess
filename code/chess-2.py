@@ -391,6 +391,11 @@ def ischeck():
                         allW.append(piece.lmoves[i])
                     else:
                         allB.append(piece.lmoves[i])
+                for i in range(len(piece.capture)):
+                    if piece.team == 0:
+                        allW.append(piece.capture[i])
+                    else:
+                        allB.append(piece.capture[i])
                 piece.lmoves = []
             if piece.click == True:
                 for i in range(len(piece.lmoves)):
@@ -398,6 +403,11 @@ def ischeck():
                         allW.append(piece.lmoves[i])
                     else:
                         allB.append(piece.lmoves[i])
+                for i in range(len(piece.capture)):
+                    if piece.team == 0:
+                        allW.append(piece.capture[i])
+                    else:
+                        allB.append(piece.capture[i])
 
 
 wpawnA = Pawn((0,6), 0, wp)

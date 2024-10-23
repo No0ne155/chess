@@ -11,6 +11,8 @@ red = (255,0,0)
 green = (0,255,0)
 orange = (255, 95, 31)
 violet = (143, 0, 255)
+dred = (128,0,0)
+lred = (255,36,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
@@ -18,8 +20,8 @@ font_path = pygame.font.get_default_font()
 myfont = pygame.font.Font(font_path, 26)
 myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
-allW = []
-allB = []
+wm = []
+bm = []
 turn = True
 capture = False
 
@@ -376,10 +378,15 @@ def isenemy(x,y,ownteam):
 
 # Definition to save all legal moves
 def ischeck():
-    global allW
-    global allB
-    allW = []
-    allB = []
+    global wm
+    global bm
+    global bc
+    global wc
+    wm = []
+    wc = []
+    bm = []
+    bc = []
+
     wking = wkingE.coords
     bking = bkingE.coords
     for piece in all_pieces:
@@ -388,26 +395,26 @@ def ischeck():
                 piece.legalmoves()
                 for i in range(len(piece.lmoves)):
                     if piece.team == 0:
-                        allW.append(piece.lmoves[i])
+                        wm.append(piece.lmoves[i])
                     else:
-                        allB.append(piece.lmoves[i])
+                        bm.append(piece.lmoves[i])
                 for i in range(len(piece.capture)):
                     if piece.team == 0:
-                        allW.append(piece.capture[i])
+                        wc.append(piece.capture[i])
                     else:
-                        allB.append(piece.capture[i])
+                        bc.append(piece.capture[i])
                 piece.lmoves = []
             if piece.click == True:
                 for i in range(len(piece.lmoves)):
                     if piece.team == 0:
-                        allW.append(piece.lmoves[i])
+                        wm.append(piece.lmoves[i])
                     else:
-                        allB.append(piece.lmoves[i])
+                        bm.append(piece.lmoves[i])
                 for i in range(len(piece.capture)):
                     if piece.team == 0:
-                        allW.append(piece.capture[i])
+                        wc.append(piece.capture[i])
                     else:
-                        allB.append(piece.capture[i])
+                        bc.append(piece.capture[i])
 
 
 wpawnA = Pawn((0,6), 0, wp)
@@ -495,10 +502,14 @@ while running == True:
 
     if listb == True:
         listboard()
-        for i in range(len(allB)):
-            pygame.draw.circle(window, black, (allB[i][1]*60+30, allB[i][0]*60+30,), 15,3)
-        for i in range(len(allW)): 
-            pygame.draw.circle(window, white, (allW[i][1]*60+30, allW[i][0]*60+30,), 12,3)
+        for i in range(len(bm)):
+            pygame.draw.circle(window, black, (bm[i][1]*60+30, bm[i][0]*60+30,), 15,3)
+        for i in range(len(wm)): 
+            pygame.draw.circle(window, white, (wm[i][1]*60+30, wm[i][0]*60+30,), 12,3)
+        for i in range(len(bc)):
+            pygame.draw.circle(window, dred, (bc[i][1]*60+30, bc[i][0]*60+30,), 15,3)
+        for i in range(len(wc)): 
+            pygame.draw.circle(window, lred, (wc[i][1]*60+30, wc[i][0]*60+30,), 12,3)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -511,8 +522,8 @@ while running == True:
                     print(board[i])
                 listb = not listb
             elif event.key == pygame.K_l:
-                print(allW)
-                print(allB)
+                print(wm)
+                print(bm)
                 print('-----------------')
 
         elif event.type == pygame.MOUSEBUTTONDOWN:

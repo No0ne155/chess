@@ -22,6 +22,8 @@ myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
 wm = []
 bm = []
+ischeckw = False
+ischeckb = False
 turn = True
 capture = False
 
@@ -382,13 +384,15 @@ def ischeck():
     global bm
     global bc
     global wc
+    global ischeckb
+    global ischeckw
     wm = []
     wc = []
     bm = []
     bc = []
 
-    wking = wkingE.coords
-    bking = bkingE.coords
+    wking = wkingE.coords[::-1]
+    bking = bkingE.coords[::-1]
     for piece in all_pieces:
         if piece.ex == True:
             if piece.click == False:
@@ -415,7 +419,19 @@ def ischeck():
                         wc.append(piece.capture[i])
                     else:
                         bc.append(piece.capture[i])
-
+    if wking in bc:
+        ischeckw = True
+        print('WhiteCHeck')
+    else:
+        ischeckw = False  
+    if bking in wc:
+        ischeckb = True
+        print('blackckeck')
+    else:
+        ischeckb = False
+        print('dochnidckeck')
+        #print(bking)
+        #print(wc)
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
@@ -499,6 +515,7 @@ while running == True:
     drawall()
     ischeck()
     highlight_moves()
+    #print(f'White: {ischeckw}; Black: {ischeckb}')
 
     if listb == True:
         listboard()
@@ -532,5 +549,6 @@ while running == True:
             click_y = math.floor(clickpos[1]/60)
             print('click at: ', click_x, click_y)
             handle_mouse_click(click_x, click_y)
+    
 
     pygame.display.update()

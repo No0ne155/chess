@@ -430,8 +430,6 @@ def ischeck():
     else:
         ischeckb = False
         print('dochnidckeck')
-        #print(bking)
-        #print(wc)
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
@@ -549,6 +547,20 @@ while running == True:
             click_y = math.floor(clickpos[1]/60)
             print('click at: ', click_x, click_y)
             handle_mouse_click(click_x, click_y)
+
+
+    counter = 0
+    ex = 0
+    for piece in all_pieces:
+        if piece.click == False:
+            counter = counter +1
+            piece.lmoves=[]
+            piece.capture=[]
+        if piece.ex == True:
+            ex = ex +1
+
+    if counter == ex:
+        print('NoKlick')
     
 
     pygame.display.update()

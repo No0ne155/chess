@@ -353,7 +353,6 @@ def handle_mouse_click(c_x, c_y):
                     piece.moved = True
                 if piece.piece == 'k':
                     piece.moved = True
-        piece.click=False
         piece.lmoves=[]
         piece.capture=[]
         if piece.coords == (c_x, c_y):
@@ -561,6 +560,7 @@ while running == True:
 
     if counter == ex:
         print('NoKlick')
+        handle_mouse_click(12,12)
     
 
     pygame.display.update()

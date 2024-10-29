@@ -353,13 +353,19 @@ def handle_mouse_click(c_x, c_y):
                     piece.moved = True
                 if piece.piece == 'k':
                     piece.moved = True
+        if piece.coords is not (c_x, c_y):
+            piece.click = False
         piece.lmoves=[]
         piece.capture=[]
-        if piece.coords == (c_x, c_y):
-            piece.click=not piece.click
+        if piece.coords == (c_x, c_y) and piece.click == False:
+            piece.click=True
+            print('settrue')
+        else:
+            piece.click=False
             if piece.team == 0 and turn == True or piece.team == 1 and turn == False:
                 piece.legalmoves()
-
+            print('setfalse')
+       
 def highlight_moves():
     for piece in all_pieces:
         if piece.click == True:
@@ -420,15 +426,12 @@ def ischeck():
                         bc.append(piece.capture[i])
     if wking in bc:
         ischeckw = True
-        print('WhiteCHeck')
     else:
         ischeckw = False  
     if bking in wc:
         ischeckb = True
-        print('blackckeck')
     else:
         ischeckb = False
-        print('dochnidckeck')
 
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)

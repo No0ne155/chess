@@ -441,6 +441,7 @@ def ischeck():
     else:
         ischeckb = False
 
+# Funktion um Schachpositionen zu sehen
 def highlightcheck():
     if ischeckw == True:
         pygame.draw.rect(window, vlred, ((wkingE.coords[0]*60),(wkingE.coords[1]*60),60,60))

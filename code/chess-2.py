@@ -295,76 +295,83 @@ class King(Chess):
 def handle_mouse_click(c_x, c_y):
     global turn
     global capture
+    move = False
     for piece in all_pieces:
         if piece.click == True:
-            if (c_y,c_x) in piece.lmoves:
-                if piece.piece == 'k':
-                    if piece.coords[0] - c_x == -2:
-                        if piece.team == 0 and turn == True:
-                            board[wrookH.coords[1]][wrookH.coords[0]] = 0
-                            board[wrookH.coords[1]+8][wrookH.coords[0]] = ''
-                            wrookH.coords = (wrookH.coords[0]-2,)+wrookH.coords[1:]
-                            board[wrookH.coords[1]][wrookH.coords[0]] = 1
-                            board[wrookH.coords[1]+8][wrookH.coords[0]] = 'r'
-                        if piece.team == 1 and turn == False:
-                            board[brookH.coords[1]][brookH.coords[0]] = 0
-                            board[brookH.coords[1]+8][brookH.coords[0]] = ''
-                            brookH.coords = (brookH.coords[0]-2,)+brookH.coords[1:]
-                            board[brookH.coords[1]][brookH.coords[0]] = 1
-                            board[brookH.coords[1]+8][brookH.coords[0]] = 'r'
-                    if piece.coords[0] - c_x == 2:
-                        if piece.team == 0 and turn == True:
-                            board[wrookA.coords[1]][wrookA.coords[0]] = 0
-                            board[wrookA.coords[1]+8][wrookA.coords[0]] = ''
-                            wrookA.coords = (wrookA.coords[0]+3,)+wrookA.coords[1:]
-                            board[wrookA.coords[1]][wrookA.coords[0]] = 1
-                            board[wrookA.coords[1]+8][wrookA.coords[0]] = 'r'
-                        if piece.team == 1 and turn == False:
-                            board[brookA.coords[1]][brookA.coords[0]] = 0
-                            board[brookA.coords[1]+8][brookA.coords[0]] = ''
-                            brookA.coords = (brookA.coords[0]+3,)+brookA.coords[1:]
-                            board[brookA.coords[1]][brookA.coords[0]] = 1
-                            board[brookA.coords[1]+8][brookA.coords[0]] = 'r'
-                board[piece.coords[1]][piece.coords[0]] = 0
-                board[piece.coords[1]+8][piece.coords[0]] = ''
-                piece.coords = (c_x, c_y)
-                board[piece.coords[1]][piece.coords[0]] = 1
-                board[piece.coords[1]+8][piece.coords[0]] = piece.piece
-                turn = not turn
-                if piece.piece == 'r':
-                    piece.moved = True
-                if piece.piece == 'k':
-                    piece.moved = True
-    
-            if (c_y, c_x) in piece.capture:
-                for rem in all_pieces:
-                    if rem.coords == (c_x, c_y):
-                        board[rem.coords[1]][rem.coords[0]] = 0
-                        board[rem.coords[1]+8][rem.coords[0]] = ''
-                        rem.coords = (10,10)
-                        rem.ex = False
-                board[piece.coords[1]][piece.coords[0]] = 0
-                board[piece.coords[1]+8][piece.coords[0]] = ''
-                piece.coords = (c_x, c_y)
-                board[piece.coords[1]][piece.coords[0]] = 1
-                board[piece.coords[1]+8][piece.coords[0]] = piece.piece
-                turn = not turn
-                if piece.piece == 'r':
-                    piece.moved = True
-                if piece.piece == 'k':
-                    piece.moved = True
-        if piece.coords is not (c_x, c_y):
-            piece.click = False
+            if piece.team == 0 and turn == True or piece.team == 1 and turn == False:
+                if (c_y,c_x) in piece.lmoves:
+                    if piece.piece == 'k':
+                        if piece.coords[0] - c_x == -2:
+                            if piece.team == 0 and turn == True:
+                                board[wrookH.coords[1]][wrookH.coords[0]] = 0
+                                board[wrookH.coords[1]+8][wrookH.coords[0]] = ''
+                                wrookH.coords = (wrookH.coords[0]-2,)+wrookH.coords[1:]
+                                board[wrookH.coords[1]][wrookH.coords[0]] = 1
+                                board[wrookH.coords[1]+8][wrookH.coords[0]] = 'r'
+                                move = True
+                            if piece.team == 1 and turn == False:
+                                board[brookH.coords[1]][brookH.coords[0]] = 0
+                                board[brookH.coords[1]+8][brookH.coords[0]] = ''
+                                brookH.coords = (brookH.coords[0]-2,)+brookH.coords[1:]
+                                board[brookH.coords[1]][brookH.coords[0]] = 1
+                                board[brookH.coords[1]+8][brookH.coords[0]] = 'r'
+                                move = True
+                        if piece.coords[0] - c_x == 2:
+                            if piece.team == 0 and turn == True:
+                                board[wrookA.coords[1]][wrookA.coords[0]] = 0
+                                board[wrookA.coords[1]+8][wrookA.coords[0]] = ''
+                                wrookA.coords = (wrookA.coords[0]+3,)+wrookA.coords[1:]
+                                board[wrookA.coords[1]][wrookA.coords[0]] = 1
+                                board[wrookA.coords[1]+8][wrookA.coords[0]] = 'r'
+                                move = True
+                            if piece.team == 1 and turn == False:
+                                board[brookA.coords[1]][brookA.coords[0]] = 0
+                                board[brookA.coords[1]+8][brookA.coords[0]] = ''
+                                brookA.coords = (brookA.coords[0]+3,)+brookA.coords[1:]
+                                board[brookA.coords[1]][brookA.coords[0]] = 1
+                                board[brookA.coords[1]+8][brookA.coords[0]] = 'r'
+                                move = True
+                    board[piece.coords[1]][piece.coords[0]] = 0
+                    board[piece.coords[1]+8][piece.coords[0]] = ''
+                    piece.coords = (c_x, c_y)
+                    board[piece.coords[1]][piece.coords[0]] = 1
+                    board[piece.coords[1]+8][piece.coords[0]] = piece.piece
+                    move = True
+                    turn = not turn
+                    if piece.piece == 'r':
+                        piece.moved = True
+                    if piece.piece == 'k':
+                        piece.moved = True
+        
+                if (c_y, c_x) in piece.capture:
+                    for rem in all_pieces:
+                        if rem.coords == (c_x, c_y):
+                            board[rem.coords[1]][rem.coords[0]] = 0
+                            board[rem.coords[1]+8][rem.coords[0]] = ''
+                            rem.coords = (10,10)
+                            rem.ex = False
+                    board[piece.coords[1]][piece.coords[0]] = 0
+                    board[piece.coords[1]+8][piece.coords[0]] = ''
+                    piece.coords = (c_x, c_y)
+                    board[piece.coords[1]][piece.coords[0]] = 1
+                    board[piece.coords[1]+8][piece.coords[0]] = piece.piece
+                    move = True
+                    turn = not turn
+                    if piece.piece == 'r':
+                        piece.moved = True
+                    if piece.piece == 'k':
+                        piece.moved = True
         piece.lmoves=[]
         piece.capture=[]
-        if piece.coords == (c_x, c_y) and piece.click == False:
-            piece.click=True
-            print('settrue')
-        else:
-            piece.click=False
+        if piece.coords == (c_x, c_y):
             if piece.team == 0 and turn == True or piece.team == 1 and turn == False:
+                piece.click = not piece.click
                 piece.legalmoves()
-            print('setfalse')
+        if piece.coords != (c_x, c_y) and piece.click == True:
+            piece.click = False
+        if move == True:
+            piece.click = False
+
        
 def highlight_moves():
     for piece in all_pieces:

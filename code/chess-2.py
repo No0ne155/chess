@@ -12,7 +12,8 @@ green = (0,255,0)
 orange = (255, 95, 31)
 violet = (143, 0, 255)
 dred = (128,0,0)
-lred = (255,36,0)
+lred = (225,36,0)
+vlred = (255,36,0)
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((800, 600))
 turn = True
@@ -440,6 +441,12 @@ def ischeck():
     else:
         ischeckb = False
 
+def highlightcheck():
+    if ischeckw == True:
+        pygame.draw.rect(window, vlred, ((wkingE.coords[0]*60),(wkingE.coords[1]*60),60,60))
+    if ischeckb == True:
+        pygame.draw.rect(window, vlred, ((bkingE.coords[0]*60),(bkingE.coords[1]*60),60,60))
+
 wpawnA = Pawn((0,6), 0, wp)
 wpawnB = Pawn((1,6), 0, wp)
 wpawnC = Pawn((2,6), 0, wp)
@@ -519,6 +526,7 @@ while running == True:
     clock.tick(60)
     window.fill(white)
     drawboard()
+    highlightcheck()
     drawall()
     ischeck()
     highlight_moves()
@@ -569,7 +577,7 @@ while running == True:
             ex = ex +1
 
     if counter == ex:
-        print('NoKlick')
+        #print('NoKlick')
         handle_mouse_click(12,12)
     
 

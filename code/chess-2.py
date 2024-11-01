@@ -292,6 +292,16 @@ class King(Chess):
                 if board[0][self.coords[0]-1] == 0 and board[0][self.coords[0]-2] == 0 and board[0][self.coords[0]-3] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]-2))
 
+def notatemove(coordx, coordy, piece, capture, check):
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    letter = letters[coordx]
+    number = coordy +1
+    if capture == True:
+        cap = 'x'
+    else:
+        cap = ''
+    
+
 # Mouse-Click Handeling
 def handle_mouse_click(c_x, c_y):
     global turn
@@ -337,6 +347,7 @@ def handle_mouse_click(c_x, c_y):
                     piece.coords = (c_x, c_y)
                     board[piece.coords[1]][piece.coords[0]] = 1
                     board[piece.coords[1]+8][piece.coords[0]] = piece.piece
+                    notatemove(c_x, c_y, piece.piece, False, ischeck())
                     move = True
                     turn = not turn
                     if piece.piece == 'r':
@@ -440,6 +451,11 @@ def ischeck():
         ischeckb = True
     else:
         ischeckb = False
+    
+    if ischeckb or ischeckw:
+        return True
+    
+    
 
 # Funktion um Schachpositionen zu sehen
 def highlightcheck():
@@ -531,6 +547,7 @@ while running == True:
     drawall()
     ischeck()
     highlight_moves()
+    print(f'turn = {turn}')
     #print(f'White: {ischeckw}; Black: {ischeckb}')
 
     if listb == True:

@@ -295,11 +295,20 @@ class King(Chess):
 def notatemove(coordx, coordy, piece, capture, check):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     letter = letters[coordx]
-    number = coordy +1
+    number = 8-coordy
+    che = ''
     if capture == True:
         cap = 'x'
     else:
         cap = ''
+    piece = piece.upper()
+    if piece == 'P':
+        piece = ''    
+
+    if check == True:
+        che = '+'
+
+    print(f'{piece+cap+letter}{number}{che}')
     
 
 # Mouse-Click Handeling
@@ -367,6 +376,7 @@ def handle_mouse_click(c_x, c_y):
                     piece.coords = (c_x, c_y)
                     board[piece.coords[1]][piece.coords[0]] = 1
                     board[piece.coords[1]+8][piece.coords[0]] = piece.piece
+                    notatemove(c_x, c_y, piece.piece, True, ischeck())
                     move = True
                     turn = not turn
                     if piece.piece == 'r':
@@ -547,7 +557,7 @@ while running == True:
     drawall()
     ischeck()
     highlight_moves()
-    print(f'turn = {turn}')
+    #print(f'turn = {turn}')
     #print(f'White: {ischeckw}; Black: {ischeckb}')
 
     if listb == True:

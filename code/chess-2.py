@@ -23,6 +23,7 @@ myfont2 = pygame.font.Font(font_path, 16)
 h_moves = []
 wm = []
 bm = []
+notation = []
 ischeckw = False
 ischeckb = False
 turn = True
@@ -307,8 +308,10 @@ def notatemove(coordx, coordy, piece, capture, check):
 
     if check == True:
         che = '+'
-
-    print(f'{piece+cap+letter}{number}{che}')
+    notationstring = piece+cap+letter+f'{number}'+che
+    print(notationstring)
+    notation.append(notationstring)
+    print(notation)
     
 
 # Mouse-Click Handeling

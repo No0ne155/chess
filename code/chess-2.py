@@ -63,14 +63,12 @@ wp = pygame.image.load('C:/code/chess/img/wp.png')
 wq = pygame.image.load('C:/code/chess/img/wq.png')
 wr = pygame.image.load('C:/code/chess/img/wr.png')
 
-pygame.display.set_caption('Chess')
-
-
+# Funktion um Text anzuzeigen
 def display_text(text,x,y):
     text_surface =myfont.render(text, True, black)
     window.blit(text_surface, (x,y))
 
-
+# Funktion um Text mit anderer Schriftgrösse anzuzeigen
 def display_text2(text,x,y):
     text_surface =myfont2.render(text, True, black)
     window.blit(text_surface, (x,y))
@@ -97,19 +95,23 @@ def drawboard():
         display_text2(f'{letters[i]}', (i+1)*60-35, 482)
         display_text2(f'{i+1}', 485, 505-(i+1)*60)
 
+# Funktion um Brett zu drucken
 def listboard():
     for i in range(len(board)):
         for j in range(len(board[i])):
             display_text(f"{board[i][j]}¦", 500+(j*30), 10+(i*30))
 
+# Funktion um koordinatenrange zu prüfen
 def israngep(valuep):
     if valuep >= 1 and valuep <= 7:
         return True
-    
+
+# Funktion um koordinatenrange zu prüfen 
 def israngen(valuem):
     if valuem >= -7 and valuem <= -1:
         return True
 
+# Klasse für die Strukturierung der Figuren - Klassen
 class Chess:
     def __init__(self, coords, team, img, piece) -> None:
         self.coords = coords

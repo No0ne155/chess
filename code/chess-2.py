@@ -374,6 +374,8 @@ def handle_mouse_click(c_x, c_y):
                             board[rem.coords[1]+8][rem.coords[0]] = ''
                             rem.coords = (10,10)
                             rem.ex = False
+                            all_pieces.remove(rem)
+
                     board[piece.coords[1]][piece.coords[0]] = 0
                     board[piece.coords[1]+8][piece.coords[0]] = ''
                     piece.coords = (c_x, c_y)
@@ -396,6 +398,8 @@ def handle_mouse_click(c_x, c_y):
             piece.click = False
         if move == True:
             piece.click = False
+    move = False
+    print(turn)
 
        
 def highlight_moves():
@@ -584,6 +588,8 @@ while running == True:
                 for i in range(len(board)):
                     print(board[i])
                 listb = not listb
+                for piece in all_pieces:
+                    print(piece.click)
             elif event.key == pygame.K_l:
                 print(wm)
                 print(bm)
@@ -606,10 +612,14 @@ while running == True:
             piece.capture=[]
         if piece.ex == True:
             ex = ex +1
+        
 
     if counter == ex:
         #print('NoKlick')
         handle_mouse_click(12,12)
+    
+    print(f'count: {counter}')
+    print(f'ex:    {ex}')
     
 
     pygame.display.update()

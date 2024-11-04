@@ -301,6 +301,7 @@ def notatemove(coordx, coordy, piece, capture, check):
     letter = letters[coordx]
     number = 8-coordy
     che = ''
+    pre = ''
     if capture == True:
         cap = 'x'
     else:
@@ -311,10 +312,12 @@ def notatemove(coordx, coordy, piece, capture, check):
 
     if check == True:
         che = '+'
-    notationstring = piece+cap+letter+f'{number}'+che
+    if len(notation) >= 2:
+        if len(notation[-2]) == 2:
+            pre = notation[-2][0]
+    notationstring = pre+piece+cap+letter+f'{number}'+che
     print(notationstring)
     notation.append(notationstring)
-    print(notation)
     
 
 # Mouse-Click Handeling
@@ -401,8 +404,6 @@ def handle_mouse_click(c_x, c_y):
             piece.click = False
         if move == True:
             piece.click = False
-    move = False
-    print(turn)
 
        
 def highlight_moves():
@@ -619,10 +620,6 @@ while running == True:
 
     if counter == ex:
         #print('NoKlick')
-        handle_mouse_click(12,12)
-    
-    print(f'count: {counter}')
-    print(f'ex:    {ex}')
-    
+        handle_mouse_click(12,12)    
 
     pygame.display.update()

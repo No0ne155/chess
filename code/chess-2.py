@@ -293,6 +293,7 @@ class King(Chess):
                 if board[0][self.coords[0]-1] == 0 and board[0][self.coords[0]-2] == 0 and board[0][self.coords[0]-3] == 0:
                     self.lmoves.append((self.coords[1], self.coords[0]-2))
 
+# Definition um Moves zu notieren
 def notatemove(coordx, coordy, piece, capture, check):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
     letter = letters[coordx]

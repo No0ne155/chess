@@ -1,5 +1,6 @@
 import pygame
 import math
+from contextlib import contextmanager
 pygame.init()
 
 
@@ -475,7 +476,6 @@ def ischeck():
     
     if ischeckb or ischeckw:
         return True
-    
     
 
 # Funktion um Schachpositionen zu sehen

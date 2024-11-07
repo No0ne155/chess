@@ -477,7 +477,6 @@ def ischeck():
     if ischeckb or ischeckw:
         return True
     
-
 # Funktion um Schachpositionen zu sehen
 def highlightcheck():
     if ischeckw == True:
@@ -605,7 +604,6 @@ while running == True:
             click_y = math.floor(clickpos[1]/60)
             print('click at: ', click_x, click_y)
             handle_mouse_click(click_x, click_y)
-
 
     counter = 0
     ex = 0

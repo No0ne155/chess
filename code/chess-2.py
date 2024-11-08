@@ -424,7 +424,7 @@ def isenemy(x,y,ownteam):
             else:
                 return False
 
-# Definition to save all legal moves
+# Funktion um alle legalen Züge zu speichern
 def ischeck():
     global wm
     global bm
